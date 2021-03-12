@@ -26,5 +26,8 @@ usethis::git_sitrep()
 #   user.name = "xxxx",
 #   user.email = "yyyy"
 # )
+# Say yes to commit files
+usethis::use_git()
+# Consider adding to the .gitignore file from https://raw.githubusercontent.com/github/gitignore/master/R.gitignore
 # Connect to GitHub.com and create a repository.
 usethis::use_github()
