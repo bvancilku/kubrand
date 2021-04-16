@@ -31,3 +31,5 @@ usethis::use_git()
 # Consider adding to the .gitignore file from https://raw.githubusercontent.com/github/gitignore/master/R.gitignore
 # Connect to GitHub.com and create a repository.
 usethis::use_github()
+
+usethis::use_readme_rmd()
