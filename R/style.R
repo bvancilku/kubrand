@@ -392,8 +392,8 @@ theme_ku <- function(
   size_factor <- 1.2
   base_text_color <- ku_color("Night")
   axis_text_color <- ku_color("Signature Grey")
-  base_grid_color <- ku_color("Limestone")
-  base_strip_color <- ku_color("Limestone")
+  base_grid_color <- ku_lighten(ku_color("Steam"), 0.3)
+  base_strip_color <- ku_color("Steam")
 
   element_markdown_ku <- function(
     size = NULL,
@@ -405,7 +405,8 @@ theme_ku <- function(
       size = size,
       colour = colour,
       hjust = hjust,
-      lineheight = lineheight
+      lineheight = lineheight,
+      padding = unit(c(0, 0, 10, 0), "pt")
     )
   }
 
@@ -462,7 +463,7 @@ theme_air <- theme_ku
 test_theme_ku <- function(save = FALSE) {
   plot <- ggplot2::ggplot(mtcars) +
     ggplot2::aes(x = disp, y = mpg) +
-    ggplot2::geom_point() +
+    ggplot2::geom_point(color = ku_color("Night")) +
     ggplot2::xlab("Engine displacement / cm³") +
     ggplot2::ylab("Fuel efficiency / mpg") +
     ggplot2::ggtitle(ggplot2::waiver, subtitle = "Subtitle is here.")
