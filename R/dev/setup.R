@@ -70,3 +70,45 @@ usethis::use_tidy_issue_template()
 usethis::use_tidy_github_actions()
 rmarkdown::render("README.Rmd")
 # git commit -m "Added GitHub actions"
+# created R/dev/run_before_committing.R
+# ##### Fixed this error when running `devtools::build_readme()`
+# > devtools::build_readme()
+# i Installing kubrand in temporary library
+# Error in (function (command = NULL, args = character(), error_on_status = TRUE,  :
+#   System command 'Rcmd.exe' failed, exit status: 1, stdout + stderr (last 10 lines):
+# E> ** using staged installation
+# E> ** R
+# E> ** tests
+# E> ** byte-compile and prepare package for lazy loading
+# E> Error in ggplot2::theme_minimal(base_size = base_size, base_family = base_family,  :
+# E>   could not find function "%+replace%"
+# E> Error: unable to load R code in package 'kubrand'
+# E> Execution halted
+# E> ERROR: lazy loading failed for package 'kubrand'
+# E> * removing '[redacted temporary directory]'
+# ##### Fix:
+# Copied "R/utils-pipe.R" to "R/utils-plus-replace.R" and modified it.
+devtools::document()
+devtools::build_readme()
+
+# ##### Fixed this error when running `devtools::build_readme()`
+# i Installing kubrand in temporary library
+# Error in (function (command = NULL, args = character(), error_on_status = TRUE,  :
+#   System command 'Rcmd.exe' failed, exit status: 1, stdout + stderr (last 10 lines):
+# E> * installing *source* package 'kubrand' ...
+# E> ** using staged installation
+# E> ** R
+# E> ** tests
+# E> ** byte-compile and prepare package for lazy loading
+# E> Error in unit(c(0, 0, 10, 0), "pt") : could not find function "unit"
+# E> Error: unable to load R code in package 'kubrand'
+# E> Execution halted
+# E> ERROR: lazy loading failed for package 'kubrand'
+# E> * removing [redacted temporary directory]'
+# ##### Fix:
+# Added prefix `grid::` to `unit`
+
+devtools::build_readme()
+source("R/dev/run_before_committing.R")
+# Added README.html to .gitignore
+# commit -m "Clean up buildability"

@@ -4,6 +4,10 @@
 # kubrand
 
 <!-- badges: start -->
+
+[![Codecov test
+coverage](https://codecov.io/gh/bvancilku/kubrand/branch/main/graph/badge.svg)](https://codecov.io/gh/bvancilku/kubrand?branch=main)
+[![R-CMD-check](https://github.com/bvancilku/kubrand/workflows/R-CMD-check/badge.svg)](https://github.com/bvancilku/kubrand/actions)
 <!-- badges: end -->
 
 The goal of kubrand is to …
@@ -60,3 +64,10 @@ You can also embed plots, for example:
 
 In that case, don’t forget to commit and push the resulting figure
 files, so they display on GitHub and CRAN.
+
+## Code of Conduct
+
+Please note that the kubrand project is released with a [Contributor
+Code of
+Conduct](https://contributor-covenant.org/version/2/0/CODE_OF_CONDUCT.html).
+By contributing to this project, you agree to abide by its terms.

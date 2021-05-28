@@ -402,7 +402,7 @@ theme_ku <- function(base_size = 10,
       colour = colour,
       hjust = hjust,
       lineheight = lineheight,
-      padding = unit(c(0, 0, 10, 0), "pt")
+      padding = grid::unit(c(0, 0, 10, 0), "pt")
     )
   }
 
