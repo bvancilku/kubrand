@@ -1,5 +1,5 @@
 # While we are developing this, be sure to run this:
-source("R/dev/packages.R")
+# source("R/dev/packages.R")
 
 # Useful resources:
 # * https://drsimonj.svbtle.com/creating-corporate-colour-palettes-for-ggplot2
@@ -382,25 +382,21 @@ setup_theme_ku <- function() {
 #' @export
 #'
 #' @examples
-theme_ku <- function(
-  base_size = 10,
-  base_family = "sans",
-  base_line_size = base_size / 22,
-  base_rect_size = base_size / 22,
-  title_location = "plot"
-) {
+theme_ku <- function(base_size = 10,
+                     base_family = "sans",
+                     base_line_size = base_size / 22,
+                     base_rect_size = base_size / 22,
+                     title_location = "plot") {
   size_factor <- 1.2
   base_text_color <- ku_color("Night")
   axis_text_color <- ku_color("Signature Grey")
   base_grid_color <- ku_lighten(ku_color("Steam"), 0.3)
   base_strip_color <- ku_color("Steam")
 
-  element_markdown_ku <- function(
-    size = NULL,
-    colour = base_text_color,
-    hjust = NULL,
-    lineheight = 1.2
-  ) {
+  element_markdown_ku <- function(size = NULL,
+                                  colour = base_text_color,
+                                  hjust = NULL,
+                                  lineheight = 1.2) {
     ggtext::element_markdown(
       size = size,
       colour = colour,
@@ -631,11 +627,9 @@ ku_color_text <- function(color_name, text) {
   color_text(ku_color(color_name), text)
 }
 
-color_text_aesthetic <- function(
-  text,
-  color,
-  template = "{colored_text}"
-) {
+color_text_aesthetic <- function(text,
+                                 color,
+                                 template = "{colored_text}") {
   colored_text <- color_text(color, text)
   glue::glue(template)
 }
