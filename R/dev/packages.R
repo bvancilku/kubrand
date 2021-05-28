@@ -1,5 +1,5 @@
-library(colorspace)
 library(bayesplot)
+library(colorspace)
 library(dplyr)
 library(farver)
 library(ggplot2)

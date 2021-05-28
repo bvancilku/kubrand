@@ -2,27 +2,41 @@ Package: kubrand
 Title: KU Branding for ggplot2
 Version: 0.0.0.9000
 Authors@R: 
-    c(
-      person(
-        given = "Brian",
-        family = "Vancil",
-        role = c("aut", "cre"),
-        email = "43145327+bvancilku@users.noreply.github.com",
-        comment = c(ORCID = "https://orcid.org/0000-0003-1145-3681")
-      ),
-      person(
-        given = "Nathan",
-        family = "Kuhn",
-        role = c("aut"),
-        email = "blanketyblank@users.noreply.github.com",
-        comment = c()
-      )
-    )
-Description: Do you want to make a plot with ggplot2 but with KU colors? Then install this package.
+    c(person(given = "Brian",
+             family = "Vancil",
+             role = c("aut", "cre"),
+             email = "43145327+bvancilku@users.noreply.github.com",
+             comment = c(ORCID = "https://orcid.org/0000-0003-1145-3681")),
+      person(given = "Nathan",
+             family = "Kuhn",
+             role = "aut",
+             email = "blanketyblank@users.noreply.github.com"))
+Description: Do you want to make a plot with ggplot2 but with KU colors?
+    Then install this package.
 License: GPL (>= 3)
+URL: https://github.com/bvancilku/kubrand
+BugReports: https://github.com/bvancilku/kubrand/issues
+Imports: 
+    bayesplot,
+    colorspace,
+    dplyr,
+    farver,
+    ggplot2,
+    glue,
+    magrittr,
+    pals,
+    patchwork,
+    purrr,
+    rlang,
+    scales,
+    scico,
+    unikn
+Suggests: 
+    knitr,
+    rmarkdown,
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
-URL: https://github.com/bvancilku/kubrand
-BugReports: https://github.com/bvancilku/kubrand/issues
