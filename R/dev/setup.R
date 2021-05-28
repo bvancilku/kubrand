@@ -67,3 +67,6 @@ usethis::use_tidy_coc()
 # git commit -m "Added contributing code of conduct"
 usethis::use_tidy_issue_template()
 # git commit -m "Added tidy issue template for GitHub"
+usethis::use_tidy_github_actions()
+rmarkdown::render("README.Rmd")
+# git commit -m "Added GitHub actions"
