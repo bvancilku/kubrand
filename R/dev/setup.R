@@ -61,3 +61,7 @@ usethis::use_testthat()
 usethis::use_tidy_description()
 # git commit -m "Freshen renv and package dependencies"
 usethis::use_tidy_style()
+# git commit -m "Styled with tidyverse style"
+usethis::use_tidy_contributing()
+usethis::use_tidy_coc()
+# git commit -m "Added contributing code of conduct"
