@@ -112,3 +112,9 @@ devtools::build_readme()
 source("R/dev/run_before_committing.R")
 # Added README.html to .gitignore
 # commit -m "Clean up buildability"
+
+usethis::use_code_of_conduct()
+
+usethis::use_tidy_contributing()
+
+
