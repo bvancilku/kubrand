@@ -46,7 +46,7 @@ Please note that the kubrand project is released with a
 [Contributor Code of Conduct](CODE_OF_CONDUCT.md). By contributing to this
 project you agree to abide by its terms.
 
-## Resources for setting up softward
+## Resources for setting up software
 
 ### Installing Tools
 
