@@ -4,6 +4,7 @@
 ^\.Rproj\.user$
 ^LICENSE\.md$
 ^README\.Rmd$
+^README\.html$
 ^\.github$
 ^codecov\.yml$
 ^CODE_OF_CONDUCT\.md$

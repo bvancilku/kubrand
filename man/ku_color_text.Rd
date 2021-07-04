@@ -4,17 +4,23 @@
 \alias{ku_color_text}
 \title{Color a specific piece of text with a KU color}
 \usage{
-ku_color_text(color_name, text)
+ku_color_text(color_name, text, ...)
 }
 \arguments{
-\item{text}{}
+\item{color_name}{character, valid KU color}
+
+\item{text}{character, text to color}
+
+\item{...}{passed to \link{color_text}}
 }
 \value{
-
+character, HTML-span-wrapped version of text
+styled according to KU color \code{color_name} (and
+\code{weight})
 }
 \description{
-This is often useful within a \code{glue::glue} function for
-a graph title or subtitle.
+This is often useful within a \link[glue:glue]{glue::glue} function for a
+graph title or subtitle.
 }
 \examples{
 ku_color_text("Crimson", "predicted")

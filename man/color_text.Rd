@@ -2,19 +2,26 @@
 % Please edit documentation in R/style.R
 \name{color_text}
 \alias{color_text}
-\title{Color a specific piece of text with a specific RGB hexcode.}
+\title{Color a specific piece of text with a specific RGB
+hexcode.}
 \usage{
-color_text(color, text)
+color_text(color, text, weight = "bold")
 }
 \arguments{
-\item{text}{}
+\item{color}{character, valid CSS color}
+
+\item{text}{character, text to color}
+
+\item{weight}{character, which CSS \code{font-weight} to
+apply: \code{c("bold", "normal", "900")}, etc.}
 }
 \value{
-
+character, HTML-span-wrapped version of text
+styled according to \code{color} and \code{weight}
 }
 \description{
-This is often useful within a \code{glue::glue} function for
-a graph title or subtitle.
+This is often useful within a \code{glue::glue} function for a
+graph title or subtitle.
 }
 \examples{
 color_text("#190C65", "predicted")

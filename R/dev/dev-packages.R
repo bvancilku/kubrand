@@ -1,0 +1,7 @@
+library(covr)
+library(devtools)
+library(pkgdown)
+library(rmarkdown)
+library(styler)
+library(testthat)
+library(usethis)

@@ -2,21 +2,32 @@
 % Please edit documentation in R/style.R
 \name{theme_ku}
 \alias{theme_ku}
-\title{KU branded {ggplot2} theme}
+\title{KU branded \code{\link[ggplot2]{ggplot2}} theme}
 \usage{
 theme_ku(
   base_size = 10,
-  base_family = "sans",
+  base_family = c("Arial Narrow", "Arial", "Raleway", "sans"),
   base_line_size = base_size/22,
   base_rect_size = base_size/22,
-  title_location = "plot"
+  title_location = "plot",
+  verbose = FALSE
 )
 }
 \arguments{
-\item{title_location}{character, c("plot", "pane")}
+\item{base_size}{double, base font size (default: 10)}
+
+\item{base_family}{character, font family in order of preference; first found will be used (default: \code{c("Arial Narrow", "Arial", "Raleway", "sans")})}
+
+\item{base_line_size}{double, line size (default: \code{base_size} / 22)}
+
+\item{base_rect_size}{double, rect size (default: \code{base_size} / 22)}
+
+\item{title_location}{character, \code{c("plot", "pane")}}
+
+\item{verbose}{logical, whether to show feedback}
 }
 \value{
-
+\code{\link[ggplot2]{ggplot2}} \link[ggplot2:theme]{ggplot2::theme}
 }
 \description{
 TODO:
@@ -28,5 +39,14 @@ TODO:
 \item Add spacing between title and subtitle.
 \item Consider adding KU logo watermark in corner (with option in function to turn it off).
 \item Lighten the axis tick labels.
+}
+}
+\examples{
+if (interactive()) {
+  library(ggplot2)
+  library(kubrand)
+  ggplot2::ggplot(datasets::mtcars, ggplot2::aes(x = mpg)) +
+    ggplot2::geom_dotplot(method="histodot", binwidth = 1.5) +
+    kubrand::theme_ku()
 }
 }

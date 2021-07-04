@@ -4,12 +4,12 @@
 \alias{\%+replace\%}
 \title{Modify the active theme (imported)}
 \usage{
-theme1 \%+replace\% element2
+e1 \%+replace\% e2
 }
 \arguments{
-\item{theme1}{original ggplot2 theme}
+\item{e1}{original ggplot2 theme}
 
-\item{element2}{ggplot2 theme element updates}
+\item{e2}{ggplot2 theme element updates}
 }
 \value{
 Updated

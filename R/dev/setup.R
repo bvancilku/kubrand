@@ -117,4 +117,12 @@ usethis::use_code_of_conduct()
 
 usethis::use_tidy_contributing()
 
-
+# To fix devtools::check()
+usethis::use_package("ggtext")
+# While `R/label.R` is open:
+usethis::use_test()
+# which adds `tests/testthat/test-label.R`
+usethis::use_package("extrafont")
+usethis::use_package("methods")
+usethis::use_package("stringr")
+usethis::use_package_doc()

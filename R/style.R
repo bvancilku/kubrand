@@ -1,21 +1,18 @@
-# While we are developing this, be sure to run this:
-# source("R/dev/packages.R")
-
-# Useful resources:
-# * https://drsimonj.svbtle.com/creating-corporate-colour-palettes-for-ggplot2
-# * https://github.com/hneth/unikn
-
 
 # Utilities -------------------------------------------
 
+hex_to_hcl <- function(hex_code) {
+  colorspace::hex2RGB(hex_code) %>%
+    methods::as("polarLUV")
+}
 
 hex_to_hcl_coords <- function(hex_code) {
-  colorspace::hex2RGB(hex_code) %>%
-    methods::as("polarLUV") %>%
+  hex_to_hcl(hex_code) %>%
     colorspace::coords()
 }
 
 get_hex_to_coord_grabber <- function(coord) {
+  force(coord)
   function(hex_code) {
     hex_to_hcl_coords(hex_code)[, coord]
   }
@@ -128,14 +125,14 @@ interleave <- function(...) {
   )
 }
 
-ku_mixcolor <- function(color1, color2) {
+ku_mixcolor <- function(color1, color2, interpolation = 0.5) {
   colorspace::hex(colorspace::mixcolor(
-    alpha = 1.0,
-    color1 = colorspace::hex2RGB(color1),
-    color2 = colorspace::hex2RGB(color2),
-    where = "HCL"
+    alpha = interpolation,
+    color1 = hex_to_hcl(color1),
+    color2 = hex_to_hcl(color2),
+    where = "polarLUV"
   )) %>%
-    rlang::set_names(base::paste0("mixture of ", base::names(color1), " and ", base::names(color2)))
+    rlang::set_names(base::paste0("Mix(", base::names(color1), ", ", base::names(color2), ", interpolation = ", interpolation, ")"))
 }
 
 ku_lighten <- function(color1, amount = 0.3) {
@@ -145,7 +142,7 @@ ku_lighten <- function(color1, amount = 0.3) {
     method = "relative",
     space = "HCL"
   ) %>%
-    rlang::set_names(base::paste0("Lightened(", base::round(amount, digits = 2), ") ", base::names(color1)))
+    rlang::set_names(base::paste0("Lighten(", base::names(color1), ", ", amount, ")"))
 }
 
 ku_darken <- function(color1, amount = 0.3) {
@@ -155,7 +152,7 @@ ku_darken <- function(color1, amount = 0.3) {
     method = "relative",
     space = "HLS"
   ) %>%
-    rlang::set_names(base::paste0("Lightened(", base::round(amount, digits = 2), ") ", base::names(color1)))
+    rlang::set_names(base::paste0("Darken(", base::names(color1), ", ", amount, ")"))
 }
 
 # Menu of palettes
@@ -264,6 +261,10 @@ ku_outside_palettes <- list(
 #'   show_colors_with_names(my_palette(7), ncol = 1)
 #' }
 ku_pal <- function(palette = "full", reverse = FALSE, ...) {
+  force(palette)
+  force(reverse)
+  force(list(...))
+
   if (palette %in% base::names(ku_palettes)) {
     palette <- ku_palettes[[palette]]
 
@@ -315,11 +316,11 @@ show_colors_with_names <- function(colours, labels = TRUE, borders = NULL, cex_l
   colour_labels <- c(colour_labels, rep(NA, nrow * ncol - length(colours)))
   colours <- c(colours, rep(NA, nrow * ncol - length(colours)))
   colours <- matrix(colours, ncol = ncol, byrow = TRUE)
-  old <- par(pty = "s", mar = c(0, 0, 0, 0))
-  on.exit(par(old))
+  old <- graphics::par(pty = "s", mar = c(0, 0, 0, 0))
+  on.exit(graphics::par(old))
   size <- max(dim(colours))
   plot(c(0, dim(colours)[[2]]), c(0, -dim(colours)[[1]]), type = "n", xlab = "", ylab = "", axes = FALSE)
-  rect(
+  graphics::rect(
     col(colours) - 1,
     -row(colours) + 1,
     col(colours),
@@ -335,7 +336,7 @@ show_colors_with_names <- function(colours, labels = TRUE, borders = NULL, cex_l
       "white"
     )
     colour_labels <- base::matrix(colour_labels, ncol = ncol, byrow = TRUE)
-    text(
+    graphics::text(
       col(colours) - 0.5,
       -row(colours) + 0.5,
       colour_labels,
@@ -350,19 +351,28 @@ show_colors_with_names <- function(colours, labels = TRUE, borders = NULL, cex_l
 
 
 setup_theme_ku <- function() {
-  old <- ggplot2:::check_subclass("point", "Geom")$default_aes
+  # old <- ggplot2:::check_subclass("point", "Geom")$default_aes
 
   ggplot2::update_geom_defaults(
     "point",
     list(
-      colour = NULL # FIXME: Set geom default color
+      colour = ku_color("Night") # FIXME: Set geom default color
     )
   )
 
-  old
+  # old
 }
 
-#' KU branded {ggplot2} theme
+load_fonts <- function() {
+  pdfFonts <- grDevices::pdfFonts
+  windowsFonts <- grDevices::windowsFonts
+  if (.Platform$OS.type == "windows") {
+    extrafont::loadfonts(device = "win", quiet = TRUE)
+  }
+  extrafont::loadfonts(device = "pdf", quiet = TRUE)
+}
+
+#' KU branded \code{\link[ggplot2]{ggplot2}} theme
 #'
 #' TODO:
 #' - Think about effect of `ggplot2::coord_cartesian(expand = FALSE)`
@@ -372,26 +382,53 @@ setup_theme_ku <- function() {
 #' - Lighten the axis tick labels.
 #'
 #'
-#' @param base_size
-#' @param base_family
-#' @param base_line_size
-#' @param base_rect_size
-#' @param title_location character, c("plot", "pane")
+#' @param base_size double, base font size (default: 10)
+#' @param base_family character, font family in order of preference; first found will be used (default: `c("Arial Narrow", "Arial", "Raleway", "sans")`)
+#' @param base_line_size double, line size (default: `base_size` / 22)
+#' @param base_rect_size double, rect size (default: `base_size` / 22)
+#' @param title_location character, `c("plot", "pane")`
+#' @param verbose logical, whether to show feedback
 #'
-#' @return
+#' @return \code{\link[ggplot2]{ggplot2}} [ggplot2::theme]
 #' @export
 #'
 #' @examples
+#' if (interactive()) {
+#'   library(ggplot2)
+#'   library(kubrand)
+#'   ggplot2::ggplot(datasets::mtcars, ggplot2::aes(x = mpg)) +
+#'     ggplot2::geom_dotplot(method = "histodot", binwidth = 1.5) +
+#'     kubrand::theme_ku()
+#' }
 theme_ku <- function(base_size = 10,
-                     base_family = "sans",
+                     base_family = c("Arial Narrow", "Arial", "Raleway", "sans"),
                      base_line_size = base_size / 22,
                      base_rect_size = base_size / 22,
-                     title_location = "plot") {
+                     title_location = "plot",
+                     verbose = FALSE) {
   size_factor <- 1.2
   base_text_color <- ku_color("Night")
   axis_text_color <- ku_color("Signature Grey")
   base_grid_color <- ku_lighten(ku_color("Steam"), 0.3)
+  axis_title_color <- ku_mixcolor(base_text_color, base_grid_color, interpolation = 0.5)
+  subtitle_text_color <- ku_mixcolor(base_text_color, axis_title_color)
   base_strip_color <- ku_color("Steam")
+
+  # FIXME: Do we want to load them every time or in .onAttach() or both?
+  load_fonts()
+  # Pick the first installed option
+  all_font_choices <- base_family
+  choices_present <- base_family[base::which(base_family %in% extrafont::fonts())]
+  if (base::length(choices_present) == 0L) {
+    base::warning("None of the following fonts are listed in `extrafont::fonts()`: ", format(list(all_font_choices)), "\n")
+    base::warning("Using font 'sans' instead\n")
+    base_family <- "sans"
+  } else {
+    base_family <- choices_present[[1]]
+    if (verbose) {
+      base::message("Using font '", base_family, "'")
+    }
+  }
 
   element_markdown_ku <- function(size = NULL,
                                   colour = base_text_color,
@@ -406,17 +443,19 @@ theme_ku <- function(base_size = 10,
     )
   }
 
-  centered <- function(size = NULL) {
+  centered <- function(size = NULL, ...) {
     element_markdown_ku(
       size = size,
-      hjust = 0.5
+      hjust = 0.5,
+      ...
     )
   }
 
-  lefted <- function(size = NULL) {
+  lefted <- function(size = NULL, ...) {
     element_markdown_ku(
       size = size,
-      hjust = 0
+      hjust = 0,
+      ...
     )
   }
 
@@ -446,52 +485,79 @@ theme_ku <- function(base_size = 10,
       plot.title.position = title_location,
       # Left-align caption to plot instead of panel.
       plot.caption.position = title_location,
-      plot.subtitle = lefted(size = base_size * size_factor),
+      plot.subtitle = lefted(size = base_size * size_factor, colour = subtitle_text_color),
       axis.text = element_markdown_ku(size = base_size, colour = axis_text_color),
-      axis.title = element_markdown_ku(size = base_size * size_factor),
+      axis.title = element_markdown_ku(size = base_size * size_factor, colour = axis_title_color),
       strip.background = element_rect_strip(),
       plot.margin = ggplot2::margin(25, 25, 10, 25)
     )
 }
-theme_aire <- theme_ku
-theme_air <- theme_ku
 
-test_theme_ku <- function(save = FALSE) {
-  plot <- ggplot2::ggplot(mtcars) +
-    ggplot2::aes(x = disp, y = mpg) +
-    ggplot2::geom_point(color = ku_color("Night")) +
-    ggplot2::xlab("Engine displacement / cm³") +
-    ggplot2::ylab("Fuel efficiency / mpg") +
-    ggplot2::ggtitle(ggplot2::waiver, subtitle = "Subtitle is here.")
+#' Demonstrate [theme_ku] compared to other themes with a
+#' simple scatter plot (or other of your choice)
+#'
+#' @param plot \code{\link[ggplot2]{ggplot2}} plot, plot to
+#'   use for comparision. (Default: `NULL` indicates that
+#'   the default scatter plot should be used)
+#'
+#' @return \code{\link[ggplot2]{ggplot2}} plot comparing
+#'   four different themes
+#' @export
+#' @importFrom rlang .data
+#' @examples
+#' if (interactive()) {
+#'   demo_theme_ku()
+#' }
+demo_theme_ku <- function(plot = NULL) {
+  if (base::is.null(plot)) {
+    plot <- ggplot2::ggplot(datasets::mtcars) +
+      ggplot2::aes(x = .data$disp, y = .data$mpg) +
+      ggplot2::geom_point(color = ku_color("Night")) +
+      ggplot2::xlab("Engine displacement / cm\u00B3") +
+      ggplot2::ylab("Fuel efficiency / mpg") +
+      ggplot2::ggtitle(ggplot2::waiver, subtitle = "Subtitle is here.")
+  }
 
-  plot_base <- plot +
-    ggplot2::ggtitle("Base theme")
+  plot_ku <- plot +
+    ggplot2::ggtitle("KU theme kubrand::theme_ku()") +
+    theme_ku()
 
   plot_minimal <- plot +
-    ggplot2::ggtitle("Minimal theme") +
+    ggplot2::ggtitle("Minimal theme ggplot2::theme_minimal()") +
     ggplot2::theme_minimal()
 
   plot_bw <- plot +
-    ggplot2::ggtitle("Black and white theme") +
+    ggplot2::ggtitle("Black and white theme ggplot2::theme_bw()") +
     ggplot2::theme_bw()
 
-  plot_ku <- plot +
-    ggplot2::ggtitle("KU theme") +
-    theme_ku()
+  plot_base <- plot +
+    ggplot2::ggtitle("Base theme ggplot2::theme_gray()")
 
   plot_combined <- (
     (plot_ku | plot_minimal) /
       (plot_bw | plot_base)
   )
 
-  show(plot_combined)
-  if (save) {
-    output_path <- "output/test_plot.pdf"
-    ggplot2::ggsave(output_path, plot = plot_combined)
-    extrafont::embed_fonts(output_path)
-  }
+  return(plot_combined)
 }
 
+#' Alternative to [ggplot2::ggsave] that embeds fonts
+#'
+#' @param plot \code{\link[ggplot2]{ggplot2}} plot to save
+#' @param path character, path (relative to current directory)
+#'
+#' @return `path`
+#' @export
+#'
+#' @examples
+#' if (interactive()) {
+#'   save_plot_with_fonts(demo_theme_ku(), "test.pdf")
+#' }
+save_plot_with_fonts <- function(plot, path) {
+  ggplot2::ggsave(filename = path, plot = plot)
+  extrafont::embed_fonts(file = path)
+  return(path)
+}
 
 #' Construct ggplot2 scale with KU color palette
 #'
@@ -593,40 +659,49 @@ scale_fill_ku <- function(palette = "full", discrete = TRUE, reverse = FALSE, ..
 
 # Colorizing text
 
-#' Color a specific piece of text with a specific RGB hexcode.
+#' Color a specific piece of text with a specific RGB
+#' hexcode.
 #'
-#' This is often useful within a `glue::glue` function for
-#' a graph title or subtitle.
+#' This is often useful within a `glue::glue` function for a
+#' graph title or subtitle.
 #'
-#' @param color
-#' @param text
+#' @param color character, valid CSS color
+#' @param text character, text to color
+#' @param weight character, which CSS `font-weight` to
+#'   apply: `c("bold", "normal", "900")`, etc.
 #'
-#' @return
+#' @return character, HTML-span-wrapped version of text
+#'   styled according to `color` and `weight`
 #' @export
 #'
 #' @examples
 #' color_text("#190C65", "predicted")
-color_text <- function(color, text) {
-  glue::glue('<span style="color: {color};">{text}</span>')
+color_text <- function(color, text, weight = "bold") {
+  glue::glue('<span style="color: {color}; font-weight: {weight};">{text}</span>')
 }
 
 #' Color a specific piece of text with a KU color
 #'
-#' This is often useful within a `glue::glue` function for
-#' a graph title or subtitle.
+#' This is often useful within a [glue::glue] function for a
+#' graph title or subtitle.
 #'
-#' @param color_name
-#' @param text
+#' @param color_name character, valid KU color
+#' @param text character, text to color
+#' @param ... passed to [color_text]
 #'
-#' @return
+#' @return character, HTML-span-wrapped version of text
+#'   styled according to KU color `color_name` (and
+#'   `weight`)
 #' @export
 #'
 #' @examples
 #' ku_color_text("Crimson", "predicted")
-ku_color_text <- function(color_name, text) {
-  color_text(ku_color(color_name), text)
+ku_color_text <- function(color_name, text, ...) {
+  color_text(ku_color(color_name), text, ...)
 }
 
+# I'm not sure what this was for, but I think I was trying
+# to find a way to color text by an aesthetic value.
 color_text_aesthetic <- function(text,
                                  color,
                                  template = "{colored_text}") {
@@ -655,7 +730,7 @@ show_ku_palettes <- function(..., n = 100L) {
 # Script ----------------------------------------------
 
 test_best_palettes <- function(n = 5L) {
-  vignette("pals_examples")
+  utils::vignette("pals_examples")
 
   # Diverging:
   show_palettes(list(
@@ -750,38 +825,10 @@ test_best_palettes <- function(n = 5L) {
 # See {biscale} package for making bivariate color scales.
 # See also https://timogrossenbacher.ch/2019/04/bivariate-maps-with-ggplot2-and-sf/
 
-# Scale labels ----------------------------------------
-
-label_academic_year <- function(prefix = "", suffix = "", digits = NULL, ...) {
-  # FIXME: digits logic needs some work
-  scales:::force_all(prefix, suffix, ...)
-  function(x) {
-    if (length(x) == 0L) {
-      return(base::character())
-    }
-    if (base::is.null(digits)) {
-      longest_digit_place <- base::floor(base::log10(base::max(x)))
-      for (digit_place in base::seq(longest_digit_place, 0L, by = -1L)) {
-        digit_range <- base::range(c(x - 1L, x) %/% (10L^digit_place))
-        if (digit_range[[1]] < digit_range[[2]]) {
-          break
-        }
-      }
-      digits <- digit_place + 1L
-    }
-
-    base::as.character(
-      glue::glue("{x - 1L}-{x %% (10L ^ digits)}", .na = NULL)
-    )
-  }
-}
-
-
-
 # Settings --------------------------------------------
 
 if (base::requireNamespace("bayesplot", quietly = TRUE)) {
-  bayesplot::bayesplot_theme_set(theme_ku())
+  base::suppressMessages(bayesplot::bayesplot_theme_set(theme_ku()))
 }
 
 # Tests -----------------------------------------------

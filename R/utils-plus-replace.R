@@ -7,8 +7,8 @@
 #' @keywords internal
 #' @export
 #' @importFrom ggplot2 %+replace%
-#' @usage theme1 \%+replace\% element2
-#' @param theme1 original ggplot2 theme
-#' @param element2 ggplot2 theme element updates
+#' @usage e1 \%+replace\% e2
+#' @param e1 original ggplot2 theme
+#' @param e2 ggplot2 theme element updates
 #' @return Updated
 NULL
