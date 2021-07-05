@@ -76,17 +76,13 @@ categorical_palette <- kubrand::ku_pal("cat2_int", reverse = TRUE)(2L)
 dataset %>% 
   ggplot2::ggplot() +
   ggplot2::aes(x = val_x_measured, y = val_y_measured, color = cat_treatment, shape = cat_treatment) +
-  ggplot2::geom_point() +
+  ggplot2::geom_point(show.legend = FALSE) +
   ggplot2::xlab("x") +
   ggplot2::ylab("y") +
   kubrand::scale_color_ku("cat2_int", reverse = TRUE) +
   ggplot2::ggtitle(
     label = glue::glue("The **{kubrand::color_text(categorical_palette[[2]], 'treatment')}** attenuates oscillation relative to the **{kubrand::color_text(categorical_palette[[1]], 'control')}**"),
     subtitle = "Sometimes one needs a subtitle. This is not one of those times."
-  ) +
-  ggplot2::labs(
-    color = NULL,
-    shape = NULL
   ) +
   theme_ku()
 ```
