@@ -126,3 +126,10 @@ usethis::use_package("extrafont")
 usethis::use_package("methods")
 usethis::use_package("stringr")
 usethis::use_package_doc()
+
+# Getting pkgdown working
+pkgdown::init_site()
+pkgdown::build_site()
+
+# Create gh-pages branch: Git bash
+git checkout --orphan gh-pages
