@@ -46,7 +46,7 @@ if (interactive()) {
   library(ggplot2)
   library(kubrand)
   ggplot2::ggplot(datasets::mtcars, ggplot2::aes(x = mpg)) +
-    ggplot2::geom_dotplot(method="histodot", binwidth = 1.5) +
+    ggplot2::geom_dotplot(method = "histodot", binwidth = 1.5) +
     kubrand::theme_ku()
 }
 }

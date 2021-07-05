@@ -363,15 +363,6 @@ setup_theme_ku <- function() {
   # old
 }
 
-load_fonts <- function() {
-  pdfFonts <- grDevices::pdfFonts
-  windowsFonts <- grDevices::windowsFonts
-  if (.Platform$OS.type == "windows") {
-    extrafont::loadfonts(device = "win", quiet = TRUE)
-  }
-  extrafont::loadfonts(device = "pdf", quiet = TRUE)
-}
-
 #' KU branded \code{\link[ggplot2]{ggplot2}} theme
 #'
 #' TODO:
