@@ -20,7 +20,7 @@ knitr::opts_chunk$set(
 [![R-CMD-check](https://github.com/bvancilku/kubrand/workflows/R-CMD-check/badge.svg)](https://github.com/bvancilku/kubrand/actions)
 <!-- badges: end -->
 
-The goal of kubrand is to ...
+The goal of kubrand is to simplify theming a ggplot2 graph using KU branded colors.
 
 ## Installation
 
@@ -32,36 +32,54 @@ install.packages("kubrand")
 ```
 -->
 
-And the development version from [GitHub](https://github.com/) with:
+The development version of the package is available from [GitHub](https://github.com/) with:
 
 ``` r
-# install.packages("devtools")
-devtools::install_github("bvancilku/kubrand")
+# install.packages("remotes")
+remotes::install_github("bvancilku/kubrand")
 ```
+
 ## Example
 
-This is a basic example which shows you how to solve a common problem:
+Make a plot using the KU-branded ggplot2 theme:
 
 ```{r example}
+library(dplyr)
+library(ggplot2)
+library(magrittr)
+library(purrr)
+
 library(kubrand)
-## basic example code
+base::set.seed(2021L + 07L + 05L)
+dataset <- tibble::tibble(
+  val_x_true = base::seq(1, 100, by = 1)
+) %>% 
+  dplyr::mutate(
+    val_x_measured = val_x_true + stats::rnorm(dplyr::n(), mean = 0, sd = 0.6),
+    ind_treatment = purrr::rbernoulli(dplyr::n()),
+    val_y_true = val_x_true * (1.1 + (1 - 0.4 * ind_treatment) * base::sin(val_x_true / 10)),
+    val_y_measured = val_y_true + stats::rnorm(dplyr::n(), mean = 0, sd = 5),
+    cat_treatment = base::factor(dplyr::if_else(ind_treatment, "treatment", "control"), levels = c("control", "treatment"))
+  )
+
+categorical_palette <- kubrand::ku_pal("cat2_int", reverse = TRUE)(2L)
+dataset %>% 
+  ggplot2::ggplot() +
+  ggplot2::aes(x = val_x_measured, y = val_y_measured, color = cat_treatment, shape = cat_treatment) +
+  ggplot2::geom_point() +
+  ggplot2::xlab("x") +
+  ggplot2::ylab("y") +
+  kubrand::scale_color_ku("cat2_int", reverse = TRUE) +
+  ggplot2::ggtitle(
+    label = glue::glue("The **{kubrand::color_text(categorical_palette[[2]], 'treatment')}** attenuates oscillation relative to the **{kubrand::color_text(categorical_palette[[1]], 'control')}**"),
+    subtitle = "Sometimes one needs a subtitle. This is not one of those times."
+  ) +
+  ggplot2::labs(
+    color = NULL,
+    shape = NULL
+  ) +
+  theme_ku()
 ```
-
-What is special about using `README.Rmd` instead of just `README.md`? You can include R chunks like so:
-
-```{r cars}
-summary(cars)
-```
-
-You'll still need to render `README.Rmd` regularly, to keep `README.md` up-to-date. `devtools::build_readme()` is handy for this. You could also use GitHub Actions to re-render `README.Rmd` every time you push. An example workflow can be found here: <https://github.com/r-lib/actions/tree/master/examples>.
-
-You can also embed plots, for example:
-
-```{r pressure, echo = FALSE}
-plot(pressure)
-```
-
-In that case, don't forget to commit and push the resulting figure files, so they display on GitHub and CRAN.
 
 ## Code of Conduct
 
