@@ -1,9 +1,9 @@
 load_fonts <- function() {
-  pdfFonts <- grDevices::pdfFonts
-  windowsFonts <- grDevices::windowsFonts
   if (.Platform$OS.type == "windows") {
+    windowsFonts <- grDevices::windowsFonts
     extrafont::loadfonts(device = "win", quiet = TRUE)
   }
+  pdfFonts <- grDevices::pdfFonts
   extrafont::loadfonts(device = "pdf", quiet = TRUE)
 
   if (base::requireNamespace("systemfonts", quietly = TRUE)) {
