@@ -132,4 +132,8 @@ pkgdown::init_site()
 pkgdown::build_site()
 
 # Create gh-pages branch: Git bash
-git checkout --orphan gh-pages
+# git checkout --orphan gh-pages
+# git rm -rf .
+# git commit --allow-empty -m 'Initial gh-pages commit'
+# git push origin gh-pages
+# git checkout main
