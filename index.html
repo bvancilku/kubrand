@@ -133,17 +133,13 @@ install.packages("kubrand")
 <span class="va">dataset</span> <span class="op">%&gt;%</span> 
   <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">val_x_measured</span>, y <span class="op">=</span> <span class="va">val_y_measured</span>, color <span class="op">=</span> <span class="va">cat_treatment</span>, shape <span class="op">=</span> <span class="va">cat_treatment</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span>show.legend <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">xlab</a></span><span class="op">(</span><span class="st">"x"</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ylab</a></span><span class="op">(</span><span class="st">"y"</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu">kubrand</span><span class="fu">::</span><span class="fu"><a href="reference/scale_color_ku.html">scale_color_ku</a></span><span class="op">(</span><span class="st">"cat2_int"</span>, reverse <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span><span class="op">(</span>
     label <span class="op">=</span> <span class="fu">glue</span><span class="fu">::</span><span class="fu"><a href="https://glue.tidyverse.org/reference/glue.html">glue</a></span><span class="op">(</span><span class="st">"The **{kubrand::color_text(categorical_palette[[2]], 'treatment')}** attenuates oscillation relative to the **{kubrand::color_text(categorical_palette[[1]], 'control')}**"</span><span class="op">)</span>,
     subtitle <span class="op">=</span> <span class="st">"Sometimes one needs a subtitle. This is not one of those times."</span>
-  <span class="op">)</span> <span class="op">+</span>
-  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>
-    color <span class="op">=</span> <span class="cn">NULL</span>,
-    shape <span class="op">=</span> <span class="cn">NULL</span>
   <span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="reference/theme_ku.html">theme_ku</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p><img src="reference/figures/README-example-1.png" width="100%"></p>
