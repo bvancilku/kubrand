@@ -302,6 +302,7 @@ pal_ku <- unikn::newpal(col = ku_palette, names = base::names(ku_palette))
 
 show_colors_with_names <- function(colours, labels = TRUE, borders = NULL, cex_label = 1, ncol = NULL) {
   # Modeled off of scales::show_col
+  # For an alternative to `show_colors_with_names(ku_palette)`, try `colorspace::swatchplot(as.list(ku_palette))`
 
   n <- length(colours)
   if (base::is.null(ncol)) {

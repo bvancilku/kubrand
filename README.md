@@ -89,9 +89,65 @@ dataset %>%
 
 <img src="man/figures/README-example-1.png" width="100%" />
 
-## Code of Conduct
+## Code of conduct
 
 Please note that the kubrand project is released with a [Contributor
 Code of
 Conduct](https://contributor-covenant.org/version/2/0/CODE_OF_CONDUCT.html).
 By contributing to this project, you agree to abide by its terms.
+
+## Related work
+
+This package relies on the hard work of other package maintainers as
+well as many good tutorials and articles. Please allow us to commend
+them here.
+
+### Articles
+
+-   [“Creating corporate colour palettes for ggplot2” by Simon
+    Jackson](https://drsimonj.svbtle.com/creating-corporate-colour-palettes-for-ggplot2)
+-   [“Bivariate maps with ggplot2 and sf” by Timo
+    Grossenbacher](https://timogrossenbacher.ch/2019/04/bivariate-maps-with-ggplot2-and-sf/)
+-   [“Choosing color palettes for data visualization that are accessible
+    for most audiences (useR! 2021) by Achim
+    Zeileis”](https://www.youtube.com/watch?v=PstHyodalWg)
+
+### Packages
+
+-   base R’s {grDevices}. Much work has recently gone into
+    `palette.colors()`/`palette.pals()` and `hcl.colors()`/`hcl.pals()`
+-   [bayesplot](https://cran.r-project.org/package=bayesplot)
+-   [biscale](https://cran.r-project.org/package=biscale)
+-   [colorspace](https://cran.r-project.org/package=colorspace)
+-   [dplyr](https://cran.r-project.org/package=dplyr)
+-   [extrafont](https://cran.r-project.org/package=extrafont)
+-   [farver](https://cran.r-project.org/package=farver)
+-   [ggplot2](https://cran.r-project.org/package=ggplot2)
+-   [ggtext](https://cran.r-project.org/package=ggtext)
+-   [glue](https://cran.r-project.org/package=glue)
+-   [magrittr](https://cran.r-project.org/package=magrittr)
+-   [methods](https://cran.r-project.org/package=methods)
+-   [paletteer](https://cran.r-project.org/package=paletteer)
+-   [pals](https://cran.r-project.org/package=pals)
+-   [patchwork](https://cran.r-project.org/package=patchwork)
+-   [purrr](https://cran.r-project.org/package=purrr)
+-   [ragg](https://cran.r-project.org/package=ragg) provides more modern
+    graphics device replacements that work with {systemfonts}
+-   [rcartocolor](https://cran.r-project.org/package=rcartocolor)
+-   [RColorBrewer](https://cran.r-project.org/package=RColorBrewer)
+-   [rlang](https://cran.r-project.org/package=rlang)
+-   [scales](https://cran.r-project.org/package=scales)
+-   [scico](https://cran.r-project.org/package=scico)
+-   [stringr](https://cran.r-project.org/package=stringr)
+-   [svglite](https://cran.r-project.org/package=svglite)
+-   [systemfonts](https://cran.r-project.org/package=systemfonts) allows
+    one to specify font variants with specific font features; can be
+    used in conjunction with {ragg}
+-   [unikn](https://cran.r-project.org/package=unikn) [unikn GitHub
+    repo](https://github.com/hneth/unikn) is a university color palette
+    with guidance on creating one’s own palette.
+-   [viridis](https://cran.r-project.org/package=viridis)
+
+### Tools
+
+-   <https://hclwizard.org/>
