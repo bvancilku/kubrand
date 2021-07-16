@@ -732,6 +732,16 @@ test_best_palettes <- function(n = 5L) {
     div_wheat_sky = ku_pal("div_wheat_sky")
   ))
 
+  pal <- pals::coolwarm(256L)
+  pal <- ku_pal("hi")
+  colorspace::specplot(pal)
+  # colorspace::swatchplot(pal)
+  # colorspace::hclplot(pal)
+  colorspace::demoplot(pal, type = 'map')
+  colorspace::demoplot(colorspace::desaturate(pal), type = 'map')
+  colorspace::demoplot(colorspace::deutan(pal), type = 'map')
+  colorspace::demoplot(colorspace::protan(pal), type = 'map')
+
   # Sequential (multi-hue):
   multi_hue_sequential_palettes <- ku_pals(c("blue_yellow", "night_yellow", "fog_fire", "brick_yellow", "night_terracotta", "brick_sky"))
   show_palettes(
