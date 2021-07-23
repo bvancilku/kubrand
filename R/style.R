@@ -230,7 +230,8 @@ ku_palettes <- base::local({
     brick_sky = ku_sequential_multiple_hue(12L, ku_color("Brick", "Sky")),
     # Generic diverging color palettes
     div_red_blue = ku_color("Brick", "Steam", "KU Blue"),
-    div_wheat_sky = ku_color("Wheat", "Steam", "Sky")
+    div_wheat_sky = ku_color("Wheat", "Steam", "Sky"),
+    div_brick_night = ku_color("Brick", "White", "Night")
   )
 })
 ku_outside_palettes <- list(
@@ -284,7 +285,8 @@ ku_pal <- function(palette = "full", reverse = FALSE, ...) {
       palette
     }
   } else {
-    valid_palettes <- c(base::names(ku_palettes), base::names(ku_outside_palettes))
+    valid_palettes <- sort(c(base::names(ku_palettes), base::names(ku_outside_palettes)))
+    # TODO: Try misspellings
     base::stop("The palette '", palette, "' is not one of the recognized palettes, which are: ", format(list(valid_palettes), justify = "none"))
   }
 }
@@ -379,6 +381,7 @@ setup_theme_ku <- function() {
 #' @param base_line_size double, line size (default: `base_size` / 22)
 #' @param base_rect_size double, rect size (default: `base_size` / 22)
 #' @param title_location character, `c("plot", "pane")`
+#' @param legend_location character, `c("plot", "right")`
 #' @param verbose logical, whether to show feedback
 #'
 #' @return \code{\link[ggplot2]{ggplot2}} [ggplot2::theme]
@@ -396,7 +399,8 @@ theme_ku <- function(base_size = 10,
                      base_family = c("Arial Narrow", "Arial", "Raleway", "sans"),
                      base_line_size = base_size / 22,
                      base_rect_size = base_size / 22,
-                     title_location = "plot",
+                     title_position = "plot",
+                     legend_position = "plot",
                      verbose = FALSE) {
   size_factor <- 1.2
   base_text_color <- ku_color("Night")
@@ -464,6 +468,8 @@ theme_ku <- function(base_size = 10,
     )
   }
 
+  # Things to consider:
+  # - ggplot2::coord_cartesian(expand = FALSE, clip = "off")
   ggplot2::theme_minimal(
     base_size = base_size,
     base_family = base_family,
@@ -474,9 +480,10 @@ theme_ku <- function(base_size = 10,
       panel.grid.major = element_line_grid(),
       plot.title = lefted(size = base_size * size_factor^2),
       # Left-align title to plot instead of panel.
-      plot.title.position = title_location,
+      plot.title.position = title_position,
       # Left-align caption to plot instead of panel.
-      plot.caption.position = title_location,
+      plot.caption.position = title_position,
+      legend.position = legend_position,
       plot.subtitle = lefted(size = base_size * size_factor, colour = subtitle_text_color),
       axis.text = element_markdown_ku(size = base_size, colour = axis_text_color),
       axis.title = element_markdown_ku(size = base_size * size_factor, colour = axis_title_color),
@@ -729,18 +736,42 @@ test_best_palettes <- function(n = 5L) {
     coolwarm = pals::coolwarm,
     warmcool = pals::warmcool,
     div_red_blue = ku_pal("div_red_blue"),
-    div_wheat_sky = ku_pal("div_wheat_sky")
+    div_wheat_sky = ku_pal("div_wheat_sky"),
+    div_brick_night = ku_pal("div_brick_night")
   ))
+
+  # for a small n
+  show_palettes(list(
+    coolwarm = pals::coolwarm,
+    warmcool = pals::warmcool,
+    div_red_blue = ku_pal("div_red_blue"),
+    div_wheat_sky = ku_pal("div_wheat_sky"),
+    div_brick_night = ku_pal("div_brick_night")
+  ), n = n)
 
   pal <- pals::coolwarm(256L)
   pal <- ku_pal("hi")
+  pal <- ku_pal("div_red_blue")(256L)
   colorspace::specplot(pal)
   # colorspace::swatchplot(pal)
   # colorspace::hclplot(pal)
-  colorspace::demoplot(pal, type = 'map')
-  colorspace::demoplot(colorspace::desaturate(pal), type = 'map')
-  colorspace::demoplot(colorspace::deutan(pal), type = 'map')
-  colorspace::demoplot(colorspace::protan(pal), type = 'map')
+  colorspace::demoplot(pal, type = "map")
+  colorspace::demoplot(colorspace::desaturate(pal), type = "map")
+  colorspace::demoplot(colorspace::deutan(pal), type = "map")
+  colorspace::demoplot(colorspace::protan(pal), type = "map")
+  colorspace::demoplot(colorspace::tritan(pal), type = "map")
+
+  # This doesn't work.
+  (
+    patchwork::wrap_elements(plot = ~ colorspace::specplot(pal), clip = FALSE) +
+      ~ colorspace::demoplot(pal, type = "map")
+  ) /
+    (
+      patchwork::wrap_elements(panel = ~ colorspace::demoplot(colorspace::desaturate(pal), type = "map"), clip = FALSE) +
+        ~ colorspace::demoplot(colorspace::deutan(pal), type = "map") +
+          ~ colorspace::demoplot(colorspace::protan(pal), type = "map") +
+            ~ colorspace::demoplot(colorspace::tritan(pal), type = "map")
+    )
 
   # Sequential (multi-hue):
   multi_hue_sequential_palettes <- ku_pals(c("blue_yellow", "night_yellow", "fog_fire", "brick_yellow", "night_terracotta", "brick_sky"))

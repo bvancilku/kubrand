@@ -47,7 +47,6 @@ library(dplyr)
 #> 
 #>     intersect, setdiff, setequal, union
 library(ggplot2)
-#> Warning: package 'ggplot2' was built under R version 4.0.5
 library(magrittr)
 #> Warning: package 'magrittr' was built under R version 4.0.5
 library(purrr)

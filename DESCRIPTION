@@ -34,7 +34,8 @@ Imports:
     scales,
     scico,
     stringr,
-    unikn
+    unikn,
+    viridis
 Suggests: 
     bayesplot,
     covr,

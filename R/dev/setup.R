@@ -137,3 +137,5 @@ pkgdown::build_site()
 # git commit --allow-empty -m 'Initial gh-pages commit'
 # git push origin gh-pages
 # git checkout main
+
+usethis::use_package("viridis")
