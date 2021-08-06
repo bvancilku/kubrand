@@ -404,27 +404,13 @@ theme_ku <- function(base_size = 10,
                      verbose = FALSE) {
   size_factor <- 1.2
   base_text_color <- ku_color("Night")
-  axis_text_color <- ku_color("Signature Grey")
-  base_grid_color <- ku_lighten(ku_color("Steam"), 0.3)
-  axis_title_color <- ku_mixcolor(base_text_color, base_grid_color, interpolation = 0.5)
+  axis_text_color <- ku_lighten(ku_color("Signature Grey"), 0.2)
+  base_grid_color <- ku_lighten(ku_color("Steam"), 0.6)
+  axis_title_color <- ku_mixcolor(base_text_color, base_grid_color, interpolation = 0.3)
   subtitle_text_color <- ku_mixcolor(base_text_color, axis_title_color)
   base_strip_color <- ku_color("Steam")
 
-  # FIXME: Do we want to load them every time or in .onAttach() or both?
-  load_fonts()
-  # Pick the first installed option
-  all_font_choices <- base_family
-  choices_present <- base_family[base::which(base_family %in% extrafont::fonts())]
-  if (base::length(choices_present) == 0L) {
-    base::warning("None of the following fonts are listed in `extrafont::fonts()`: ", format(list(all_font_choices)), "\n")
-    base::warning("Using font 'sans' instead\n")
-    base_family <- "sans"
-  } else {
-    base_family <- choices_present[[1]]
-    if (verbose) {
-      base::message("Using font '", base_family, "'")
-    }
-  }
+  base_family <- choose_first_installed_font(choices = base_family, verbose = verbose)
 
   element_markdown_ku <- function(size = NULL,
                                   colour = base_text_color,
@@ -456,12 +442,15 @@ theme_ku <- function(base_size = 10,
   }
 
   element_line_grid <- function(colour = base_grid_color) {
+    force(colour)
     ggplot2::element_line(
       colour = colour
     )
   }
 
   element_rect_strip <- function(colour = NA, fill = base_strip_color) {
+    force(colour)
+    force(fill)
     ggplot2::element_rect(
       colour = colour,
       fill = fill
@@ -478,6 +467,7 @@ theme_ku <- function(base_size = 10,
   ) %+replace%
     ggplot2::theme(
       panel.grid.major = element_line_grid(),
+      panel.grid.minor = element_line_grid(colour = ku_color("White")),
       plot.title = lefted(size = base_size * size_factor^2),
       # Left-align title to plot instead of panel.
       plot.title.position = title_position,
