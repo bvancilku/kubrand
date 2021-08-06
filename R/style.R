@@ -322,7 +322,7 @@ show_colors_with_names <- function(colours, labels = TRUE, borders = NULL, cex_l
   old <- graphics::par(pty = "s", mar = c(0, 0, 0, 0))
   on.exit(graphics::par(old))
   size <- max(dim(colours))
-  plot(c(0, dim(colours)[[2]]), c(0, -dim(colours)[[1]]), type = "n", xlab = "", ylab = "", axes = FALSE)
+  base::plot(c(0, dim(colours)[[2]]), c(0, -dim(colours)[[1]]), type = "n", xlab = "", ylab = "", axes = FALSE)
   graphics::rect(
     col(colours) - 1,
     -row(colours) + 1,
