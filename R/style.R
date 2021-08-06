@@ -380,8 +380,8 @@ setup_theme_ku <- function() {
 #' @param base_family character, font family in order of preference; first found will be used (default: `c("Arial Narrow", "Arial", "Raleway", "sans")`)
 #' @param base_line_size double, line size (default: `base_size` / 22)
 #' @param base_rect_size double, rect size (default: `base_size` / 22)
-#' @param title_location character, `c("plot", "pane")`
-#' @param legend_location character, `c("plot", "right")`
+#' @param title_position character, `c("plot", "pane")`
+#' @param legend_position character, `c("plot", "right")`
 #' @param verbose logical, whether to show feedback
 #'
 #' @return \code{\link[ggplot2]{ggplot2}} [ggplot2::theme]

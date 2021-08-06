@@ -23,11 +23,11 @@ theme_ku(
 
 \item{base_rect_size}{double, rect size (default: \code{base_size} / 22)}
 
+\item{title_position}{character, \code{c("plot", "pane")}}
+
+\item{legend_position}{character, \code{c("plot", "right")}}
+
 \item{verbose}{logical, whether to show feedback}
-
-\item{title_location}{character, \code{c("plot", "pane")}}
-
-\item{legend_location}{character, \code{c("plot", "right")}}
 }
 \value{
 \code{\link[ggplot2]{ggplot2}} \link[ggplot2:theme]{ggplot2::theme}

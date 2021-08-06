@@ -17,7 +17,6 @@ License: GPL (>= 3)
 URL: https://github.com/bvancilku/kubrand
 BugReports: https://github.com/bvancilku/kubrand/issues
 Imports: 
-    bayesplot,
     colorspace,
     dplyr,
     extrafont,
