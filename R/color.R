@@ -1,3 +1,6 @@
+
+# HCL function factories --------------------------------------------------
+
 hex_to_hcl <- function(hex_code) {
   colorspace::hex2RGB(hex_code) %>%
     methods::as("polarLUV")
