@@ -1,356 +1,5 @@
-
 # Utilities -------------------------------------------
 
-hex_to_hcl <- function(hex_code) {
-  colorspace::hex2RGB(hex_code) %>%
-    methods::as("polarLUV")
-}
-
-hex_to_hcl_coords <- function(hex_code) {
-  hex_to_hcl(hex_code) %>%
-    colorspace::coords()
-}
-
-get_hex_to_coord_grabber <- function(coord) {
-  force(coord)
-  function(hex_code) {
-    hex_to_hcl_coords(hex_code)[, coord]
-  }
-}
-
-hex_to_hue <- get_hex_to_coord_grabber("H")
-hex_to_chroma <- get_hex_to_coord_grabber("C")
-hex_to_luminance <- get_hex_to_coord_grabber("L")
-
-ku_sequential_single_hue <- function(n, hex1, l2 = 95, rev = TRUE, power = 1.5) {
-  colorspace::sequential_hcl(
-    n = n,
-    h = hex_to_hue(hex1),
-    c = hex_to_chroma(hex1),
-    l = c(hex_to_luminance(hex1), l2),
-    rev = rev,
-    power = power
-  )
-}
-
-ku_sequential_multiple_hue <- function(n, twohex, rev = FALSE) {
-  hex1 <- twohex[[1L]]
-  hex2 <- twohex[[2L]]
-  colorspace::sequential_hcl(
-    n = n,
-    h1 = hex_to_hue(hex1),
-    c1 = hex_to_chroma(hex1),
-    l1 = hex_to_luminance(hex1),
-    h2 = hex_to_hue(hex2),
-    c2 = hex_to_chroma(hex2),
-    l2 = hex_to_luminance(hex2),
-    rev = rev
-  )
-}
-
-ku_qualitative <- function(n, two_hex, rev = FALSE) {
-  # TODO: I'm using mean and min here. What should I use?
-  colorspace::qualitative_hcl(
-    n = n,
-    h = hex_to_hue(two_hex),
-    c = base::mean(hex_to_chroma(two_hex)),
-    l = base::min(hex_to_luminance(two_hex)),
-    rev = rev
-  )
-}
-
-# Colors ----------------------------------------------
-
-# Try `scales::show_col(ku_palette)`.
-# KU-branded colors
-ku_palette <- c(
-  # Primary palette
-  "KU Blue" = "#0051ba",
-  "Crimson" = "#e8000d",
-  "Jayhawk Yellow" = "#ffc82d",
-  "Signature Grey" = "#85898a",
-  # Secondary palette
-  "Night" = "#003459",
-  "Lake" = "#2767ff",
-  "Sky" = "#73cbf2",
-  "Brick" = "#971b2f",
-  "Fire" = "#ff3042",
-  "Wheat" = "#f2a900",
-  "Fog" = "#8e9fbc",
-  "Steam" = "#dde5ed",
-  "Terra Cotta" = "#c66e4e",
-  "Limestone" = "#d7d2cb",
-  # Implied colors to lighten and darken?
-  "White" = "#ffffff",
-  "Black" = "#000000"
-)
-
-#' Extract colors from the KU palette
-#'
-#' @param ... character names of colors. See `ku_color()`
-#' for available colors.
-#'
-#' @return named character vector of colors
-#' @export
-#'
-#' @seealso show_colors_with_names can display the palette.
-#' @examples
-#' if (interactive()) {
-#'   print(ku_color())
-#'   print(ku_color("KU Blue", "Night"))
-#' }
-ku_color <- function(...) {
-  colors <- c(...)
-  if (base::is.null(colors)) {
-    return(ku_palette)
-  }
-  valid_colors <- base::names(ku_palette)
-  unrecognized_colors <- base::setdiff(colors, valid_colors)
-  if (base::length(unrecognized_colors) > 0) {
-    base::warning("Some unrecognized colors were passed to `ku_color`, namely: ", base::paste0('"', unrecognized_colors, '"', collapse = ", "))
-    base::message("Valid color names are: ", base::paste0('"', valid_colors, '"', collapse = ", "))
-  }
-
-  ku_palette[colors]
-}
-
-interleave <- function(...) {
-  dots <- list(...)
-  interleave_inner <- purrr::lift_dl(
-    function(...) c(base::rbind(...))
-  )
-  rlang::set_names(
-    interleave_inner(dots),
-    interleave_inner(purrr::map(dots, base::names))
-  )
-}
-
-ku_mixcolor <- function(color1, color2, interpolation = 0.5) {
-  colorspace::hex(colorspace::mixcolor(
-    alpha = interpolation,
-    color1 = hex_to_hcl(color1),
-    color2 = hex_to_hcl(color2),
-    where = "polarLUV"
-  )) %>%
-    rlang::set_names(base::paste0("Mix(", base::names(color1), ", ", base::names(color2), ", interpolation = ", interpolation, ")"))
-}
-
-ku_lighten <- function(color1, amount = 0.3) {
-  colorspace::lighten(
-    col = color1,
-    amount = amount,
-    method = "relative",
-    space = "HCL"
-  ) %>%
-    rlang::set_names(base::paste0("Lighten(", base::names(color1), ", ", amount, ")"))
-}
-
-ku_darken <- function(color1, amount = 0.3) {
-  colorspace::darken(
-    col = color1,
-    amount = amount,
-    method = "relative",
-    space = "HLS"
-  ) %>%
-    rlang::set_names(base::paste0("Darken(", base::names(color1), ", ", amount, ")"))
-}
-
-# Menu of palettes
-ku_palettes <- base::local({
-  # Setup
-  set_names <- rlang::set_names
-  # Generic color palettes
-  cat2_int <- ku_color("KU Blue", "Signature Grey")
-  cat2_ext <- ku_color("KU Blue", "Crimson")
-  cat3_int <- ku_color("KU Blue", "Signature Grey", "Jayhawk Yellow")
-  cat3_ext <- ku_color("KU Blue", "Crimson", "Jayhawk Yellow")
-  cat4 <- ku_color("KU Blue", "Crimson", "Jayhawk Yellow", "Signature Grey")
-  cat8 <- interleave(cat4, ku_lighten(cat4))
-  cat12 <- interleave(ku_darken(cat4), cat4, ku_lighten(cat4))
-  cat12a <- ku_color("Night", "KU Blue", "Sky", "Brick", "Crimson", "Fire", "Terra Cotta", "Wheat", "Jayhawk Yellow", "Signature Grey", "Fog", "Steam")
-  # Categorical codes
-  sex_cat <- c("Female", "Male", "Not Specified")
-  career_cat <- c("Undergraduate", "Graduate", "Medical Residents")
-  minority_cat <- c("Minority", "Nonminority")
-  country_cat <- c("Domestic", "International")
-  residency_cat <- c("Resident", "Nonresident")
-  course_division_cat <- c("UG Lower Division (<300)", "UG Upper Division (300-699)", "Graduate I (700-899)", "Graduate II (900-999)")
-  instruction_mode_cat <- c("In Person", "Distance Learning")
-  new_student_type_cat <- c("Others", "First-time Freshmen", "New Transfers")
-  # Palettes
-  list(
-    full = ku_color(),
-    # Generic categorical color palettes
-    cat2_int = cat2_int,
-    cat2_ext = cat2_ext,
-    cat3_int = cat3_int,
-    cat3_ext = cat3_ext,
-    cat4 = cat4,
-    cat8 = cat8,
-    cat12 = cat12,
-    cat12a = cat12a,
-    # ku_rainbow = grDevices::colorRampPalette(
-    #   ku_lighten(ku_color("Crimson", "Jayhawk Yellow", "KU Blue"), amount = 0.4))(5L),
-    red_blue_cat = ku_qualitative(12L, ku_color("Crimson", "KU Blue")),
-    light_red_blue_cat = ku_qualitative(12L, ku_lighten(ku_color("Crimson", "KU Blue"), 0.5)),
-    # Special purpose categorical color palettes
-    sex_int = set_names(cat3_int, sex_cat),
-    sex_ext = set_names(cat3_ext, sex_cat),
-    career_int = set_names(cat3_int, career_cat),
-    career_ext = set_names(cat3_ext, career_cat),
-    minority_int = set_names(cat2_int, minority_cat),
-    minority_ext = set_names(cat2_ext, minority_cat),
-    country_int = set_names(cat2_int, country_cat),
-    country_ext = set_names(cat2_ext, country_cat),
-    residency_int = set_names(cat2_int, residency_cat),
-    residency_ext = set_names(cat2_ext, residency_cat),
-    course_division = set_names(cat4, course_division_cat),
-    instruction_mode_int = set_names(cat2_int, instruction_mode_cat),
-    instruction_mode_ext = set_names(cat2_ext, instruction_mode_cat),
-    new_student_type_int = set_names(cat3_int, new_student_type_cat),
-    new_student_type_ext = set_names(cat3_ext, new_student_type_cat),
-    forecast2 = ku_color("Jayhawk Yellow", "Signature Grey"),
-    # Generic sequential color palettes (single hue)
-    light_blues = ku_sequential_single_hue(12L, ku_color("KU Blue"), power = 0.75),
-    # white_blue = ku_color("White", "KU Blue"),
-    sky_night = ku_color("Sky", "Night"),
-    limestone_night = ku_color("Limestone", "Night"),
-    steam_night = ku_color("Steam", "Night"),
-    night_blue_lake_sky = ku_color("Night", "KU Blue", "Lake", "Sky"),
-    # Generic sequential color palettes (multiple hue)
-    blue_yellow = ku_sequential_multiple_hue(12L, ku_color("KU Blue", "Jayhawk Yellow")),
-    fog_fire = ku_sequential_multiple_hue(12L, ku_color("Fire", "Fog"), rev = TRUE),
-    # fog_fire = ku_color("Fog", "Fire"),
-    # brick_yellow = ku_color("Jayhawk Yellow", "Brick"),
-    brick_yellow = ku_sequential_multiple_hue(12L, ku_color("Brick", "Jayhawk Yellow")),
-    # night_terracotta = ku_color("Night", "Terra Cotta"),
-    night_terracotta = ku_sequential_multiple_hue(12L, ku_color("Night", "Terra Cotta")),
-    night_yellow = ku_sequential_multiple_hue(12L, ku_color("Night", "Jayhawk Yellow")),
-    # brick_sky = ku_color("Sky", "Brick"),
-    brick_sky = ku_sequential_multiple_hue(12L, ku_color("Brick", "Sky")),
-    # Generic diverging color palettes
-    div_red_blue = ku_color("Brick", "Steam", "KU Blue"),
-    div_wheat_sky = ku_color("Wheat", "Steam", "Sky"),
-    div_brick_night = ku_color("Brick", "White", "Night")
-  )
-})
-ku_outside_palettes <- list(
-  coolwarm = pals::coolwarm,
-  warmcool = pals::warmcool,
-  ocean.haline = pals::ocean.haline,
-  parula = pals::parula,
-  brewer.blues = pals::brewer.blues,
-  brewer.paired = pals::brewer.paired,
-  stepped = pals::stepped
-)
-
-#' Access/interpolate from one of the menu of KU palettes
-#'
-#' @param palette character vector. See `ku_palettes`.
-#' @param reverse boolean. Indicates whether to reverse the
-#' order.
-#' @param ... Additional arguments to pass to `colorRampPalette()`
-#'
-#' @return a function taking a number of colors and
-#' returning a palette
-#' @export
-#'
-#' @examples
-#' if (interactive()) {
-#'   my_palette <- ku_pal("div_red_blue")
-#'   my_palette(8)
-#'   show_colors_with_names(my_palette(7), ncol = 1)
-#' }
-ku_pal <- function(palette = "full", reverse = FALSE, ...) {
-  force(palette)
-  force(reverse)
-  force(list(...))
-
-  if (palette %in% base::names(ku_palettes)) {
-    palette <- ku_palettes[[palette]]
-
-    if (reverse) {
-      palette <- base::rev(palette)
-    }
-
-    grDevices::colorRampPalette(palette, ...)
-  } else if (palette %in% base::names(ku_outside_palettes)) {
-    palette <- ku_outside_palettes[[palette]]
-
-    if (reverse) {
-      function(n) {
-        base::rev(palette(n))
-      }
-    } else {
-      palette
-    }
-  } else {
-    valid_palettes <- sort(c(base::names(ku_palettes), base::names(ku_outside_palettes)))
-    # TODO: Try misspellings
-    base::stop("The palette '", palette, "' is not one of the recognized palettes, which are: ", format(list(valid_palettes), justify = "none"))
-  }
-}
-
-ku_pals <- function(palettes, ...) {
-  palettes %>%
-    purrr::map(ku_pal, ...) %>%
-    rlang::set_names(palettes)
-}
-
-pal_ku <- unikn::newpal(col = ku_palette, names = base::names(ku_palette))
-# Try `unikn::seecol(pal_ku)`
-
-# grDevices::windowsFonts(Raleway = grDevices::windowsFont("Raleway"))
-
-show_colors_with_names <- function(colours, labels = TRUE, borders = NULL, cex_label = 1, ncol = NULL) {
-  # Modeled off of scales::show_col
-  # For an alternative to `show_colors_with_names(ku_palette)`, try `colorspace::swatchplot(as.list(ku_palette))`
-
-  n <- length(colours)
-  if (base::is.null(ncol)) {
-    ncol <- ceiling(sqrt(n))
-  }
-  nrow <- ceiling(n / ncol)
-  colour_labels <- if (base::is.null(base::names(colours))) {
-    colours
-  } else {
-    base::paste0(base::names(colours), "\n", colours)
-  }
-  colour_labels <- c(colour_labels, rep(NA, nrow * ncol - length(colours)))
-  colours <- c(colours, rep(NA, nrow * ncol - length(colours)))
-  colours <- matrix(colours, ncol = ncol, byrow = TRUE)
-  old <- graphics::par(pty = "s", mar = c(0, 0, 0, 0))
-  on.exit(graphics::par(old))
-  size <- max(dim(colours))
-  base::plot(c(0, dim(colours)[[2]]), c(0, -dim(colours)[[1]]), type = "n", xlab = "", ylab = "", axes = FALSE)
-  graphics::rect(
-    col(colours) - 1,
-    -row(colours) + 1,
-    col(colours),
-    -row(colours),
-    col = colours,
-    border = borders
-  )
-  if (labels) {
-    hcl <- farver::decode_colour(colours, "rgb", "hcl")
-    label_col <- ifelse(
-      hcl[, "l"] > 50,
-      "black",
-      "white"
-    )
-    colour_labels <- base::matrix(colour_labels, ncol = ncol, byrow = TRUE)
-    graphics::text(
-      col(colours) - 0.5,
-      -row(colours) + 0.5,
-      colour_labels,
-      cex = cex_label,
-      col = label_col
-    )
-  }
-}
-
-
-# ggplot2 theme ---------------------------------------
 
 
 setup_theme_ku <- function() {
@@ -368,18 +17,33 @@ setup_theme_ku <- function() {
 
 #' KU branded \code{\link[ggplot2]{ggplot2}} theme
 #'
-#' TODO:
-#' - Think about effect of `ggplot2::coord_cartesian(expand = FALSE)`
-#'   - And also maybe add clip = 'off'
-#' - Add spacing between title and subtitle.
-#' - Consider adding KU logo watermark in corner (with option in function to turn it off).
-#' - Lighten the axis tick labels.
+#' ## TODO
+#' - Think about effect of `ggplot2::coord_cartesian(expand
+#' = FALSE)` - And also maybe add clip = 'off' - Add spacing
+#' between title and subtitle. - Consider adding KU logo
+#' watermark in corner (with option in function to turn it
+#' off). - Lighten the axis tick labels.
 #'
+#' ## Notes
+#' - Please run `extrafont::font_import()` once in your
+#' `renv` environment before using this function. You should
+#' also run it for any other non-standard directories where
+#' you operating system keeps fonts. For instance, on
+#' Windows, you can import user-installed fonts with
+#' `extrafont::font_import(path.expand("~/AppData/Local/Microsoft/Windows/Fonts"))`.
+#' If you get an error when importing fonts, you may need to
+#' downgrade the `Rttf2pt1` package to version 1.3.8 by
+#' running `remotes::install_version("Rttf2pt1", version =
+#' "1.3.8")`.
 #'
 #' @param base_size double, base font size (default: 10)
-#' @param base_family character, font family in order of preference; first found will be used (default: `c("Arial Narrow", "Arial", "Raleway", "sans")`)
-#' @param base_line_size double, line size (default: `base_size` / 22)
-#' @param base_rect_size double, rect size (default: `base_size` / 22)
+#' @param base_family character, font family in order of
+#'   preference; first found will be used (default:
+#'   `c("Arial Narrow", "Arial", "Raleway", "sans")`)
+#' @param base_line_size double, line size (default:
+#'   `base_size` / 22)
+#' @param base_rect_size double, rect size (default:
+#'   `base_size` / 22)
 #' @param title_position character, `c("plot", "pane")`
 #' @param legend_position character, `c("plot", "right")`
 #' @param verbose logical, whether to show feedback
@@ -530,23 +194,7 @@ demo_theme_ku <- function(plot = NULL) {
   return(plot_combined)
 }
 
-#' Alternative to [ggplot2::ggsave] that embeds fonts
-#'
-#' @param plot \code{\link[ggplot2]{ggplot2}} plot to save
-#' @param path character, path (relative to current directory)
-#'
-#' @return `path`
-#' @export
-#'
-#' @examples
-#' if (interactive()) {
-#'   save_plot_with_fonts(demo_theme_ku(), "test.pdf")
-#' }
-save_plot_with_fonts <- function(plot, path) {
-  ggplot2::ggsave(filename = path, plot = plot)
-  extrafont::embed_fonts(file = path)
-  return(path)
-}
+
 
 #' Construct ggplot2 scale with KU color palette
 #'

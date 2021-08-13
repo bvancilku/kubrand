@@ -17,11 +17,15 @@ theme_ku(
 \arguments{
 \item{base_size}{double, base font size (default: 10)}
 
-\item{base_family}{character, font family in order of preference; first found will be used (default: \code{c("Arial Narrow", "Arial", "Raleway", "sans")})}
+\item{base_family}{character, font family in order of
+preference; first found will be used (default:
+\code{c("Arial Narrow", "Arial", "Raleway", "sans")})}
 
-\item{base_line_size}{double, line size (default: \code{base_size} / 22)}
+\item{base_line_size}{double, line size (default:
+\code{base_size} / 22)}
 
-\item{base_rect_size}{double, rect size (default: \code{base_size} / 22)}
+\item{base_rect_size}{double, rect size (default:
+\code{base_size} / 22)}
 
 \item{title_position}{character, \code{c("plot", "pane")}}
 
@@ -33,15 +37,28 @@ theme_ku(
 \code{\link[ggplot2]{ggplot2}} \link[ggplot2:theme]{ggplot2::theme}
 }
 \description{
-TODO:
+\subsection{TODO}{
 \itemize{
-\item Think about effect of \code{ggplot2::coord_cartesian(expand = FALSE)}
-\itemize{
-\item And also maybe add clip = 'off'
+\item Think about effect of \code{ggplot2::coord_cartesian(expand = FALSE)} - And also maybe add clip = 'off' - Add spacing
+between title and subtitle. - Consider adding KU logo
+watermark in corner (with option in function to turn it
+off). - Lighten the axis tick labels.
 }
-\item Add spacing between title and subtitle.
-\item Consider adding KU logo watermark in corner (with option in function to turn it off).
-\item Lighten the axis tick labels.
+}
+}
+\details{
+\subsection{Notes}{
+\itemize{
+\item Please run \code{extrafont::font_import()} once in your
+\code{renv} environment before using this function. You should
+also run it for any other non-standard directories where
+you operating system keeps fonts. For instance, on
+Windows, you can import user-installed fonts with
+\code{extrafont::font_import(path.expand("~/AppData/Local/Microsoft/Windows/Fonts"))}.
+If you get an error when importing fonts, you may need to
+downgrade the \code{Rttf2pt1} package to version 1.3.8 by
+running \code{remotes::install_version("Rttf2pt1", version = "1.3.8")}.
+}
 }
 }
 \examples{
