@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Function reference • kubrand</title>
+<title>Show a vector of hexcode colors using names. — show_colors_with_names • kubrand</title>
 
 
 <!-- jquery -->
@@ -39,7 +39,10 @@
 
 
 
-<meta property="og:title" content="Function reference" />
+<meta property="og:title" content="Show a vector of hexcode colors using names. — show_colors_with_names" />
+<meta property="og:description" content="Modelled off of scales::show_col For an alternative to
+show_colors_with_names(ku_palette), try
+colorspace::swatchplot(as.list(ku_palette))" />
 
 
 
@@ -58,7 +61,7 @@
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    <div class="container template-reference-index">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -105,111 +108,59 @@
       </header>
 
 <div class="row">
-  <div class="contents col-md-9">
+  <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Reference</h1>
+    <h1>Show a vector of hexcode colors using names.</h1>
+    <small class="dont-index">Source: <a href='https://github.com/bvancilku/kubrand/blob/master/R/color.R'><code>R/color.R</code></a></small>
+    <div class="hidden name"><code>show_colors_with_names.Rd</code></div>
     </div>
 
-    <table class="ref-index">
+    <div class="ref-description">
+    <p>Modelled off of <code><a href='https://scales.r-lib.org/reference/show_col.html'>scales::show_col</a></code> For an alternative to
+<code>show_colors_with_names(ku_palette)</code>, try
+<code><a href='https://colorspace.R-Forge.R-project.org//reference/swatchplot.html'>colorspace::swatchplot(as.list(ku_palette))</a></code></p>
+    </div>
 
-    <colgroup>
-      
-      <col class="alias" />
-      <col class="title" />
-    </colgroup>
+    <pre class="usage"><span class='fu'>show_colors_with_names</span><span class='op'>(</span>
+  <span class='va'>colours</span>,
+  labels <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  borders <span class='op'>=</span> <span class='cn'>NULL</span>,
+  cex_label <span class='op'>=</span> <span class='fl'>1</span>,
+  ncol <span class='op'>=</span> <span class='cn'>NULL</span>
+<span class='op'>)</span></pre>
 
-    <tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-all-functions" class="hasAnchor"><a href="#section-all-functions" class="anchor"></a>All functions</h2>
-          <p class="section-desc"></p>
-        </th>
-      </tr>
-      
-      
-    </tbody><tbody>
-      
-      
-      <tr>
-        
-        <td>
-          <p><code><a href="choose_first_installed_font.html">choose_first_installed_font()</a></code> </p>
-        </td>
-        <td><p>Choose the first installed out of the list of choices</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="color_text.html">color_text()</a></code> </p>
-        </td>
-        <td><p>Color a specific piece of text with a specific RGB
-hexcode.</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="demo_theme_ku.html">demo_theme_ku()</a></code> </p>
-        </td>
-        <td><p>Demonstrate theme_ku compared to other themes with a
-simple scatter plot (or other of your choice)</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="ku_color.html">ku_color()</a></code> </p>
-        </td>
-        <td><p>Extract colors from the KU palette</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="ku_color_text.html">ku_color_text()</a></code> </p>
-        </td>
-        <td><p>Color a specific piece of text with a KU color</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="ku_pal.html">ku_pal()</a></code> </p>
-        </td>
-        <td><p>Access/interpolate from one of the menu of KU palettes</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="label_year_range.html">label_year_range()</a></code> </p>
-        </td>
-        <td><p>Label special year type (like an academic or fiscal
-year), which might span calendar years</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="save_plot_with_fonts.html">save_plot_with_fonts()</a></code> </p>
-        </td>
-        <td><p>Alternative to <a href='https://ggplot2.tidyverse.org/reference/ggsave.html'>ggplot2::ggsave</a> that embeds fonts</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="scale_color_ku.html">scale_color_ku()</a></code> </p>
-        </td>
-        <td><p>Construct ggplot2 scale with KU color palette</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="scale_fill_ku.html">scale_fill_ku()</a></code> </p>
-        </td>
-        <td><p>Construct ggplot2 scale with KU color palette</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="show_colors_with_names.html">show_colors_with_names()</a></code> </p>
-        </td>
-        <td><p>Show a vector of hexcode colors using names.</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="theme_ku.html">theme_ku()</a></code> </p>
-        </td>
-        <td><p>KU branded <code><a href='https://ggplot2.tidyverse.org/reference/ggplot2-package.html'>ggplot2</a></code> theme</p></td>
-      </tr>
-    </tbody>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>colours</th>
+      <td><p>character, vector of RGB hex codes with names for the colors</p></td>
+    </tr>
+    <tr>
+      <th>labels</th>
+      <td><p>logical, whether to display color name labels</p></td>
+    </tr>
+    <tr>
+      <th>borders</th>
+      <td><p>color to show for borders</p></td>
+    </tr>
+    <tr>
+      <th>cex_label</th>
+      <td><p>size for label</p></td>
+    </tr>
+    <tr>
+      <th>ncol</th>
+      <td><p>number of columns (default: <code>NULL</code> means to make the output as square as possible.)</p></td>
+    </tr>
     </table>
-  </div>
 
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/interactive.html'>interactive</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span>
+  <span class='fu'>show_colors_with_names</span><span class='op'>(</span><span class='va'>ku_palette</span><span class='op'>)</span>
+<span class='op'>}</span>
+</div></pre>
+  </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
       <h2 data-toc-skip>Contents</h2>

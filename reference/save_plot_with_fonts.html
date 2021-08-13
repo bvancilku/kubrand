@@ -109,7 +109,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Alternative to <a href='https://ggplot2.tidyverse.org/reference/ggsave.html'>ggplot2::ggsave</a> that embeds fonts</h1>
-    <small class="dont-index">Source: <a href='https://github.com/bvancilku/kubrand/blob/master/R/style.R'><code>R/style.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/bvancilku/kubrand/blob/master/R/plotting.R'><code>R/plotting.R</code></a></small>
     <div class="hidden name"><code>save_plot_with_fonts.Rd</code></div>
     </div>
 
@@ -117,7 +117,7 @@
     <p>Alternative to <a href='https://ggplot2.tidyverse.org/reference/ggsave.html'>ggplot2::ggsave</a> that embeds fonts</p>
     </div>
 
-    <pre class="usage"><span class='fu'>save_plot_with_fonts</span><span class='op'>(</span><span class='va'>plot</span>, <span class='va'>path</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>save_plot_with_fonts</span><span class='op'>(</span><span class='va'>plot</span>, <span class='va'>path</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -129,6 +129,10 @@
     <tr>
       <th>path</th>
       <td><p>character, path (relative to current directory)</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>other arguments passed to <a href='https://ggplot2.tidyverse.org/reference/ggsave.html'>ggplot2::ggsave</a>.</p></td>
     </tr>
     </table>
 
