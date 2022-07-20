@@ -20,6 +20,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-home">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -32,25 +34,19 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">kubrand</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.0.9000</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
 <li>
-  <a href="index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="reference/index.html">Reference</a>
 </li>
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/bvancilku/kubrand/">
+  <a href="https://github.com/bvancilku/kubrand/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -67,143 +63,139 @@
 
       </header><div class="row">
   <div class="contents col-md-9">
-<div id="kubrand" class="section level1">
-<div class="page-header"><h1 class="hasAnchor">
-<a href="#kubrand" class="anchor"></a>kubrand</h1></div>
+<div class="section level1">
+<div class="page-header"><h1 id="kubrand">kubrand<a class="anchor" aria-label="anchor" href="#kubrand"></a>
+</h1></div>
 <!-- badges: start -->
-
 <p>The goal of kubrand is to simplify theming a ggplot2 graph using KU branded colors.</p>
-<div id="installation" class="section level2">
-<h2 class="hasAnchor">
-<a href="#installation" class="anchor"></a>Installation</h2>
+<div class="section level2">
+<h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
+</h2>
 <!--
 You can install the released version of kubrand from [CRAN](https://CRAN.R-project.org) with:
 
 ``` r
 install.packages("kubrand")
 ```
--->
-<p>The development version of the package is available from <a href="https://github.com/">GitHub</a> with:</p>
+--><p>The development version of the package is available from <a href="https://github.com/" class="external-link">GitHub</a> with:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># install.packages("remotes")</span>
-<span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"bvancilku/kubrand"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># install.packages("remotes")</span></span>
+<span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"bvancilku/kubrand"</span><span class="op">)</span></span></code></pre></div>
 </div>
-<div id="example" class="section level2">
-<h2 class="hasAnchor">
-<a href="#example" class="anchor"></a>Example</h2>
+<div class="section level2">
+<h2 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
+</h2>
 <p>Make a plot using the KU-branded ggplot2 theme:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span>
-<span class="co">#&gt; Warning: package 'dplyr' was built under R version 4.0.5</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Attaching package: 'dplyr'</span>
-<span class="co">#&gt; The following objects are masked from 'package:stats':</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;     filter, lag</span>
-<span class="co">#&gt; The following objects are masked from 'package:base':</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;     intersect, setdiff, setequal, union</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://magrittr.tidyverse.org">magrittr</a></span><span class="op">)</span>
-<span class="co">#&gt; Warning: package 'magrittr' was built under R version 4.0.5</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://purrr.tidyverse.org">purrr</a></span><span class="op">)</span>
-<span class="co">#&gt; Warning: package 'purrr' was built under R version 4.0.5</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Attaching package: 'purrr'</span>
-<span class="co">#&gt; The following object is masked from 'package:magrittr':</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;     set_names</span>
-
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/bvancilku/kubrand">kubrand</a></span><span class="op">)</span>
-<span class="co">#&gt; Configuring {kubrand}</span>
-<span class="fu">base</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">2021L</span> <span class="op">+</span> <span class="fl">07L</span> <span class="op">+</span> <span class="fl">05L</span><span class="op">)</span>
-<span class="va">dataset</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span>
-  val_x_true <span class="op">=</span> <span class="fu">base</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">100</span>, by <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>
-<span class="op">)</span> <span class="op">%&gt;%</span> 
-  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>
-    val_x_measured <span class="op">=</span> <span class="va">val_x_true</span> <span class="op">+</span> <span class="fu">stats</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html">n</a></span><span class="op">(</span><span class="op">)</span>, mean <span class="op">=</span> <span class="fl">0</span>, sd <span class="op">=</span> <span class="fl">0.6</span><span class="op">)</span>,
-    ind_treatment <span class="op">=</span> <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/rbernoulli.html">rbernoulli</a></span><span class="op">(</span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html">n</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>,
-    val_y_true <span class="op">=</span> <span class="va">val_x_true</span> <span class="op">*</span> <span class="op">(</span><span class="fl">1.1</span> <span class="op">+</span> <span class="op">(</span><span class="fl">1</span> <span class="op">-</span> <span class="fl">0.4</span> <span class="op">*</span> <span class="va">ind_treatment</span><span class="op">)</span> <span class="op">*</span> <span class="fu">base</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/base/Trig.html">sin</a></span><span class="op">(</span><span class="va">val_x_true</span> <span class="op">/</span> <span class="fl">10</span><span class="op">)</span><span class="op">)</span>,
-    val_y_measured <span class="op">=</span> <span class="va">val_y_true</span> <span class="op">+</span> <span class="fu">stats</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html">n</a></span><span class="op">(</span><span class="op">)</span>, mean <span class="op">=</span> <span class="fl">0</span>, sd <span class="op">=</span> <span class="fl">5</span><span class="op">)</span>,
-    cat_treatment <span class="op">=</span> <span class="fu">base</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/if_else.html">if_else</a></span><span class="op">(</span><span class="va">ind_treatment</span>, <span class="st">"treatment"</span>, <span class="st">"control"</span><span class="op">)</span>, levels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"control"</span>, <span class="st">"treatment"</span><span class="op">)</span><span class="op">)</span>
-  <span class="op">)</span>
-
-<span class="va">categorical_palette</span> <span class="op">&lt;-</span> <span class="fu">kubrand</span><span class="fu">::</span><span class="fu"><a href="reference/ku_pal.html">ku_pal</a></span><span class="op">(</span><span class="st">"cat2_int"</span>, reverse <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">(</span><span class="fl">2L</span><span class="op">)</span>
-<span class="va">dataset</span> <span class="op">%&gt;%</span> 
-  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">val_x_measured</span>, y <span class="op">=</span> <span class="va">val_y_measured</span>, color <span class="op">=</span> <span class="va">cat_treatment</span>, shape <span class="op">=</span> <span class="va">cat_treatment</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span>show.legend <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">xlab</a></span><span class="op">(</span><span class="st">"x"</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ylab</a></span><span class="op">(</span><span class="st">"y"</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu">kubrand</span><span class="fu">::</span><span class="fu"><a href="reference/scale_color_ku.html">scale_color_ku</a></span><span class="op">(</span><span class="st">"cat2_int"</span>, reverse <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span><span class="op">(</span>
-    label <span class="op">=</span> <span class="fu">glue</span><span class="fu">::</span><span class="fu"><a href="https://glue.tidyverse.org/reference/glue.html">glue</a></span><span class="op">(</span><span class="st">"The **{kubrand::color_text(categorical_palette[[2]], 'treatment')}** attenuates oscillation relative to the **{kubrand::color_text(categorical_palette[[1]], 'control')}**"</span><span class="op">)</span>,
-    subtitle <span class="op">=</span> <span class="st">"Sometimes one needs a subtitle. This is not one of those times."</span>
-  <span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="reference/theme_ku.html">theme_ku</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning: package 'dplyr' was built under R version 4.0.5</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Attaching package: 'dplyr'</span></span>
+<span><span class="co">#&gt; The following objects are masked from 'package:stats':</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;     filter, lag</span></span>
+<span><span class="co">#&gt; The following objects are masked from 'package:base':</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;     intersect, setdiff, setequal, union</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://magrittr.tidyverse.org" class="external-link">magrittr</a></span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning: package 'magrittr' was built under R version 4.0.5</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="http://purrr.tidyverse.org" class="external-link">purrr</a></span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning: package 'purrr' was built under R version 4.0.5</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Attaching package: 'purrr'</span></span>
+<span><span class="co">#&gt; The following object is masked from 'package:magrittr':</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;     set_names</span></span>
+<span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/bvancilku/kubrand" class="external-link">kubrand</a></span><span class="op">)</span></span>
+<span><span class="co">#&gt; Configuring {kubrand}</span></span>
+<span><span class="fu">base</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">2021L</span> <span class="op">+</span> <span class="fl">07L</span> <span class="op">+</span> <span class="fl">05L</span><span class="op">)</span></span>
+<span><span class="va">dataset</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span></span>
+<span>  val_x_true <span class="op">=</span> <span class="fu">base</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">100</span>, by <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
+<span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span>
+<span>    val_x_measured <span class="op">=</span> <span class="va">val_x_true</span> <span class="op">+</span> <span class="fu">stats</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html" class="external-link">n</a></span><span class="op">(</span><span class="op">)</span>, mean <span class="op">=</span> <span class="fl">0</span>, sd <span class="op">=</span> <span class="fl">0.6</span><span class="op">)</span>,</span>
+<span>    ind_treatment <span class="op">=</span> <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/rbernoulli.html" class="external-link">rbernoulli</a></span><span class="op">(</span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html" class="external-link">n</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>    val_y_true <span class="op">=</span> <span class="va">val_x_true</span> <span class="op">*</span> <span class="op">(</span><span class="fl">1.1</span> <span class="op">+</span> <span class="op">(</span><span class="fl">1</span> <span class="op">-</span> <span class="fl">0.4</span> <span class="op">*</span> <span class="va">ind_treatment</span><span class="op">)</span> <span class="op">*</span> <span class="fu">base</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/base/Trig.html" class="external-link">sin</a></span><span class="op">(</span><span class="va">val_x_true</span> <span class="op">/</span> <span class="fl">10</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>    val_y_measured <span class="op">=</span> <span class="va">val_y_true</span> <span class="op">+</span> <span class="fu">stats</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html" class="external-link">n</a></span><span class="op">(</span><span class="op">)</span>, mean <span class="op">=</span> <span class="fl">0</span>, sd <span class="op">=</span> <span class="fl">5</span><span class="op">)</span>,</span>
+<span>    cat_treatment <span class="op">=</span> <span class="fu">base</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/if_else.html" class="external-link">if_else</a></span><span class="op">(</span><span class="va">ind_treatment</span>, <span class="st">"treatment"</span>, <span class="st">"control"</span><span class="op">)</span>, levels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"control"</span>, <span class="st">"treatment"</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="op">)</span></span>
+<span></span>
+<span><span class="va">categorical_palette</span> <span class="op">&lt;-</span> <span class="fu">kubrand</span><span class="fu">::</span><span class="fu"><a href="reference/ku_pal.html">ku_pal</a></span><span class="op">(</span><span class="st">"cat2_int"</span>, reverse <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">(</span><span class="fl">2L</span><span class="op">)</span></span>
+<span><span class="va">dataset</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">val_x_measured</span>, y <span class="op">=</span> <span class="va">val_y_measured</span>, color <span class="op">=</span> <span class="va">cat_treatment</span>, shape <span class="op">=</span> <span class="va">cat_treatment</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span>show.legend <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">xlab</a></span><span class="op">(</span><span class="st">"x"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ylab</a></span><span class="op">(</span><span class="st">"y"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">kubrand</span><span class="fu">::</span><span class="fu"><a href="reference/scale_color_ku.html">scale_color_ku</a></span><span class="op">(</span><span class="st">"cat2_int"</span>, reverse <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span></span>
+<span>    label <span class="op">=</span> <span class="fu">glue</span><span class="fu">::</span><span class="fu"><a href="https://glue.tidyverse.org/reference/glue.html" class="external-link">glue</a></span><span class="op">(</span><span class="st">"The **{kubrand::color_text(categorical_palette[[2]], 'treatment')}** attenuates oscillation relative to the **{kubrand::color_text(categorical_palette[[1]], 'control')}**"</span><span class="op">)</span>,</span>
+<span>    subtitle <span class="op">=</span> <span class="st">"Sometimes one needs a subtitle. This is not one of those times."</span></span>
+<span>  <span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="reference/theme_ku.html">theme_ku</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/README-example-1.png" width="100%"></p>
 </div>
-<div id="code-of-conduct" class="section level2">
-<h2 class="hasAnchor">
-<a href="#code-of-conduct" class="anchor"></a>Code of conduct</h2>
-<p>Please note that the kubrand project is released with a <a href="https://contributor-covenant.org/version/2/0/CODE_OF_CONDUCT.html">Contributor Code of Conduct</a>. By contributing to this project, you agree to abide by its terms.</p>
+<div class="section level2">
+<h2 id="code-of-conduct">Code of conduct<a class="anchor" aria-label="anchor" href="#code-of-conduct"></a>
+</h2>
+<p>Please note that the kubrand project is released with a <a href="https://contributor-covenant.org/version/2/0/CODE_OF_CONDUCT.html" class="external-link">Contributor Code of Conduct</a>. By contributing to this project, you agree to abide by its terms.</p>
 </div>
-<div id="related-work" class="section level2">
-<h2 class="hasAnchor">
-<a href="#related-work" class="anchor"></a>Related work</h2>
+<div class="section level2">
+<h2 id="related-work">Related work<a class="anchor" aria-label="anchor" href="#related-work"></a>
+</h2>
 <p>This package relies on the hard work of other package maintainers as well as many good tutorials and articles. Please allow us to commend them here.</p>
-<div id="articles" class="section level3">
-<h3 class="hasAnchor">
-<a href="#articles" class="anchor"></a>Articles</h3>
+<div class="section level3">
+<h3 id="articles">Articles<a class="anchor" aria-label="anchor" href="#articles"></a>
+</h3>
 <ul>
-<li><a href="https://drsimonj.svbtle.com/creating-corporate-colour-palettes-for-ggplot2">“Creating corporate colour palettes for ggplot2” by Simon Jackson</a></li>
-<li><a href="https://timogrossenbacher.ch/2019/04/bivariate-maps-with-ggplot2-and-sf/">“Bivariate maps with ggplot2 and sf” by Timo Grossenbacher</a></li>
-<li><a href="https://www.youtube.com/watch?v=PstHyodalWg">“Choosing color palettes for data visualization that are accessible for most audiences (useR! 2021) by Achim Zeileis”</a></li>
+<li><a href="https://drsimonj.svbtle.com/creating-corporate-colour-palettes-for-ggplot2" class="external-link">“Creating corporate colour palettes for ggplot2” by Simon Jackson</a></li>
+<li><a href="https://timogrossenbacher.ch/2019/04/bivariate-maps-with-ggplot2-and-sf/" class="external-link">“Bivariate maps with ggplot2 and sf” by Timo Grossenbacher</a></li>
+<li><a href="https://www.youtube.com/watch?v=PstHyodalWg" class="external-link">“Choosing color palettes for data visualization that are accessible for most audiences (useR! 2021) by Achim Zeileis”</a></li>
 </ul>
 </div>
-<div id="packages" class="section level3">
-<h3 class="hasAnchor">
-<a href="#packages" class="anchor"></a>Packages</h3>
+<div class="section level3">
+<h3 id="packages">Packages<a class="anchor" aria-label="anchor" href="#packages"></a>
+</h3>
 <ul>
-<li>base R’s {grDevices}. Much work has recently gone into <code><a href="https://rdrr.io/r/grDevices/palette.html">palette.colors()</a></code>/<code><a href="https://rdrr.io/r/grDevices/palette.html">palette.pals()</a></code> and <code><a href="https://rdrr.io/r/grDevices/palettes.html">hcl.colors()</a></code>/<code><a href="https://rdrr.io/r/grDevices/palettes.html">hcl.pals()</a></code>
+<li>base R’s {grDevices}. Much work has recently gone into <code><a href="https://rdrr.io/r/grDevices/palette.html" class="external-link">palette.colors()</a></code>/<code><a href="https://rdrr.io/r/grDevices/palette.html" class="external-link">palette.pals()</a></code> and <code><a href="https://rdrr.io/r/grDevices/palettes.html" class="external-link">hcl.colors()</a></code>/<code><a href="https://rdrr.io/r/grDevices/palettes.html" class="external-link">hcl.pals()</a></code>
 </li>
-<li><a href="https://cran.r-project.org/package=bayesplot">bayesplot</a></li>
-<li><a href="https://cran.r-project.org/package=biscale">biscale</a></li>
-<li><a href="https://cran.r-project.org/package=colorspace">colorspace</a></li>
-<li><a href="https://cran.r-project.org/package=dplyr">dplyr</a></li>
-<li><a href="https://cran.r-project.org/package=extrafont">extrafont</a></li>
-<li><a href="https://cran.r-project.org/package=farver">farver</a></li>
-<li><a href="https://cran.r-project.org/package=ggplot2">ggplot2</a></li>
-<li><a href="https://cran.r-project.org/package=ggtext">ggtext</a></li>
-<li><a href="https://cran.r-project.org/package=glue">glue</a></li>
-<li><a href="https://cran.r-project.org/package=magrittr">magrittr</a></li>
-<li><a href="https://cran.r-project.org/package=methods">methods</a></li>
-<li><a href="https://cran.r-project.org/package=paletteer">paletteer</a></li>
-<li><a href="https://cran.r-project.org/package=pals">pals</a></li>
-<li><a href="https://cran.r-project.org/package=patchwork">patchwork</a></li>
-<li><a href="https://cran.r-project.org/package=purrr">purrr</a></li>
+<li><a href="https://cran.r-project.org/package=bayesplot" class="external-link">bayesplot</a></li>
+<li><a href="https://cran.r-project.org/package=biscale" class="external-link">biscale</a></li>
+<li><a href="https://cran.r-project.org/package=colorspace" class="external-link">colorspace</a></li>
+<li><a href="https://cran.r-project.org/package=dplyr" class="external-link">dplyr</a></li>
+<li><a href="https://cran.r-project.org/package=extrafont" class="external-link">extrafont</a></li>
+<li><a href="https://cran.r-project.org/package=farver" class="external-link">farver</a></li>
+<li><a href="https://cran.r-project.org/package=ggplot2" class="external-link">ggplot2</a></li>
+<li><a href="https://cran.r-project.org/package=ggtext" class="external-link">ggtext</a></li>
+<li><a href="https://cran.r-project.org/package=glue" class="external-link">glue</a></li>
+<li><a href="https://cran.r-project.org/package=magrittr" class="external-link">magrittr</a></li>
+<li><a href="https://cran.r-project.org/package=methods" class="external-link">methods</a></li>
+<li><a href="https://cran.r-project.org/package=paletteer" class="external-link">paletteer</a></li>
+<li><a href="https://cran.r-project.org/package=pals" class="external-link">pals</a></li>
+<li><a href="https://cran.r-project.org/package=patchwork" class="external-link">patchwork</a></li>
+<li><a href="https://cran.r-project.org/package=purrr" class="external-link">purrr</a></li>
 <li>
-<a href="https://cran.r-project.org/package=ragg">ragg</a> provides more modern graphics device replacements that work with {systemfonts}</li>
-<li><a href="https://cran.r-project.org/package=rcartocolor">rcartocolor</a></li>
-<li><a href="https://cran.r-project.org/package=RColorBrewer">RColorBrewer</a></li>
-<li><a href="https://cran.r-project.org/package=rlang">rlang</a></li>
-<li><a href="https://cran.r-project.org/package=scales">scales</a></li>
-<li><a href="https://cran.r-project.org/package=scico">scico</a></li>
-<li><a href="https://cran.r-project.org/package=stringr">stringr</a></li>
-<li><a href="https://cran.r-project.org/package=svglite">svglite</a></li>
+<a href="https://cran.r-project.org/package=ragg" class="external-link">ragg</a> provides more modern graphics device replacements that work with {systemfonts}</li>
+<li><a href="https://cran.r-project.org/package=rcartocolor" class="external-link">rcartocolor</a></li>
+<li><a href="https://cran.r-project.org/package=RColorBrewer" class="external-link">RColorBrewer</a></li>
+<li><a href="https://cran.r-project.org/package=rlang" class="external-link">rlang</a></li>
+<li><a href="https://cran.r-project.org/package=scales" class="external-link">scales</a></li>
+<li><a href="https://cran.r-project.org/package=scico" class="external-link">scico</a></li>
+<li><a href="https://cran.r-project.org/package=stringr" class="external-link">stringr</a></li>
+<li><a href="https://cran.r-project.org/package=svglite" class="external-link">svglite</a></li>
 <li>
-<a href="https://cran.r-project.org/package=systemfonts">systemfonts</a> allows one to specify font variants with specific font features; can be used in conjunction with {ragg}</li>
+<a href="https://cran.r-project.org/package=systemfonts" class="external-link">systemfonts</a> allows one to specify font variants with specific font features; can be used in conjunction with {ragg}</li>
 <li>
-<a href="https://cran.r-project.org/package=unikn">unikn</a> <a href="https://github.com/hneth/unikn">unikn GitHub repo</a> is a university color palette with guidance on creating one’s own palette.</li>
-<li><a href="https://cran.r-project.org/package=viridis">viridis</a></li>
+<a href="https://cran.r-project.org/package=unikn" class="external-link">unikn</a> <a href="https://github.com/hneth/unikn" class="external-link">unikn GitHub repo</a> is a university color palette with guidance on creating one’s own palette.</li>
+<li><a href="https://cran.r-project.org/package=viridis" class="external-link">viridis</a></li>
 </ul>
 </div>
-<div id="tools" class="section level3">
-<h3 class="hasAnchor">
-<a href="#tools" class="anchor"></a>Tools</h3>
-<ul>
-<li><a href="https://hclwizard.org/" class="uri">https://hclwizard.org/</a></li>
-</ul>
+<div class="section level3">
+<h3 id="tools">Tools<a class="anchor" aria-label="anchor" href="#tools"></a>
+</h3>
+<ul><li><a href="https://hclwizard.org/" class="external-link uri">https://hclwizard.org/</a></li></ul>
 </div>
 </div>
 </div>
@@ -211,53 +203,64 @@ install.packages("kubrand")
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <div class="links">
-<h2>Links</h2>
+<h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
-<li>Browse source code at <br><a href="https://github.com/bvancilku/kubrand/">https://​github.com/​bvancilku/​kubrand/​</a>
-</li>
-<li>Report a bug at <br><a href="https://github.com/bvancilku/kubrand/issues">https://​github.com/​bvancilku/​kubrand/​issues</a>
-</li>
+<li><a href="https://github.com/bvancilku/kubrand/" class="external-link">Browse source code</a></li>
+<li><a href="https://github.com/bvancilku/kubrand/issues" class="external-link">Report a bug</a></li>
 </ul>
 </div>
+
 <div class="license">
-<h2>License</h2>
+<h2 data-toc-skip>License</h2>
 <ul class="list-unstyled">
 <li><a href="LICENSE.html">Full license</a></li>
 <li><small>GPL (&gt;= 3)</small></li>
 </ul>
 </div>
+
 <div class="community">
-<h2>Community</h2>
+<h2 data-toc-skip>Community</h2>
 <ul class="list-unstyled">
 <li><a href="CONTRIBUTING.html">Contributing guide</a></li>
 <li><a href="CODE_OF_CONDUCT.html">Code of conduct</a></li>
 </ul>
 </div>
-<div class="developers">
-<h2>Developers</h2>
+
+<div class="citation">
+<h2 data-toc-skip>Citation</h2>
 <ul class="list-unstyled">
-<li>Brian Vancil <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/https://orcid.org/0000-0003-1145-3681" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<li><a href="authors.html#citation">Citing kubrand</a></li>
+</ul>
+</div>
+
+<div class="developers">
+<h2 data-toc-skip>Developers</h2>
+<ul class="list-unstyled">
+<li>Brian Vancil <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/https://orcid.org/0000-0003-1145-3681" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
 <li>Nathan Kuhn <br><small class="roles"> Author </small>  </li>
 </ul>
 </div>
 
-  <div class="dev-status">
-<h2>Dev status</h2>
+<div class="dev-status">
+<h2 data-toc-skip>Dev status</h2>
 <ul class="list-unstyled">
-<li><a href="https://codecov.io/gh/bvancilku/kubrand?branch=main"><img src="https://codecov.io/gh/bvancilku/kubrand/branch/main/graph/badge.svg" alt="Codecov test coverage"></a></li>
-<li><a href="https://github.com/bvancilku/kubrand/actions"><img src="https://github.com/bvancilku/kubrand/workflows/R-CMD-check/badge.svg" alt="R-CMD-check"></a></li>
+<li><a href="https://codecov.io/gh/bvancilku/kubrand?branch=main" class="external-link"><img src="https://codecov.io/gh/bvancilku/kubrand/branch/main/graph/badge.svg" alt="Codecov test coverage"></a></li>
+<li><a href="https://github.com/bvancilku/kubrand/actions" class="external-link"><img src="https://github.com/bvancilku/kubrand/workflows/R-CMD-check/badge.svg" alt="R-CMD-check"></a></li>
 </ul>
 </div>
-</div>
+
+  </div>
 </div>
 
 
       <footer><div class="copyright">
-  <p>Developed by Brian Vancil, Nathan Kuhn.</p>
+  <p></p>
+<p>Developed by Brian Vancil, Nathan Kuhn.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer>
@@ -265,6 +268,8 @@ install.packages("kubrand")
 
   
 
+
+  
 
   </body>
 </html>
